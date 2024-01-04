@@ -1,27 +1,21 @@
-import express from 'express';
-import { connectDB } from './connectDB.js';
-import { getAllUsers } from './userController.js';
-
-const app = express();
-const port = 3000;
+import express from "express";
+import sequelize from "./connectDB.js";
+const app = express()
+const port = 3000
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
-});
+})
 
-app.get('/users', getAllUsers);
+app.listen(port, () => {
 
-const startServer = async () => {
-  try {
-    await connectDB();
-    app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`);
+  sequelize.authenticate()
+    .then(() => {
+      console.log('Connexion à la base de données établie avec succès.');
+    })
+    .catch(err => {
+      console.error('Erreur de connexion à la base de données:', err);
     });
-  } catch (error) {
-    console.error('Erreur lors du démarrage du serveur :', error);
-    process.exit(1);
-  }
-};
 
-startServer();
-
+  console.log(`Example app listening on port ${port}`)
+})
