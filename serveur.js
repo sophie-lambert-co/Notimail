@@ -5,11 +5,17 @@ import express from 'express';
 //importe la connexion à la base de données définie dans le fichier connectDB.js.
 // La variable connection est utilisée pour interagir avec la base de données via Sequelize.
 import { connection } from './connectDB.js';
-import { createUser, getAllUsers } from './userController.js';
+
 import { User } from './modelUser.js';
+
+//Importation des routes définies dans le fichier blablaRoutes.mjs
+import userRoutes from './userRoute.js';
 
 
 import morgan from 'morgan';// créent une instance d'Express appelée app et définissent le numéro de port (port) sur lequel le serveur écoutera les connexions entrantes. 
+
+// Création d'une instance d'Express
+//  app est une instance du framework Express. Express est un framework web pour Node.js qui simplifie la création d'applications web. Lorsqueje cree une instance d'Express avec const app = express();, app devient le point central pour la configuration du serveur, le routage, etc. Toutes les fonctionnalités d'Express, telles que la définition de routes, l'utilisation de middlewares, etc., sont liées à cette instance.
 const app = express();
 const port = 3000;
 
@@ -23,23 +29,8 @@ app.use(express.json());
 //app.use() : Cette méthode Express ajoute du middleware à l'application. Lorsqu'elle est utilisée avec app.use(), elle s'applique à chaque requête entrante, enregistrant les détails de la requête HTTP dans les logs conformément au format spécifié.
 app.use(morgan('dev'))
 
-//Cette partie crée une route pour l'URL racine ('/') en utilisant la méthode HTTP GET.
-// Lorsqu'un utilisateur accède à cette route, le serveur renvoie la chaîne de caractères 'Hello World!' comme réponse.
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
-
-//* Route POST pour la création d'un utilisateur
-app.post('/user', createUser);
-
-app.post('/user', (req, res) =>{
-  try {
-    console.log(req.body)
-    res.status(200).send('ok')
-  } catch (error) {
-    res.status(403).send('impossible de cree un utilisateur')
-  }
-});
+//Cette partie crée une route pour l'URL racine ('/') 
+app.use('/', userRoutes);
 
 
 
@@ -48,7 +39,12 @@ async function startServer() {
   // Essayer d'authentifier la connexion à la base de données
   try {
     await connection.authenticate();
-    await User.sync({ force: true });
+    
+    //User : C'est le modèle que vous avez défini à l'aide de Sequelize pour représenter une table de votre base de données. Ce modèle contient les définitions de vos colonnes, types de données, contraintes, etc.
+    //sync() : C'est une méthode fournie par Sequelize pour synchroniser le modèle avec la base de données. Elle crée une table correspondant au modèle s'il n'existe pas déjà dans la base de données.
+    //{ force: true } : C'est une option utilisée avec la méthode sync(). Lorsque force: true est utilisé, cela signifie que Sequelize va effectuer une opération de force, ce qui entraîne la suppression de toute table existante correspondant au modèle User s'il y en a une, et ensuite recréer la table avec les définitions actuelles du modèle.
+    //Ainsi, en utilisant await User.sync({ force: true });, vous demandez à Sequelize de synchroniser le modèle User avec la base de données en recréant la table correspondante dans la base de données. 
+    await User.sync({ force: false });
     console.log('Connexion à la base de données établie avec succès.');
     // Démarrer le serveur Express pour écouter les connexions entrantes
     app.listen(port, () => {
