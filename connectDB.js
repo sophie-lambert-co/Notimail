@@ -1,24 +1,18 @@
-import mysql from 'mysql2/promise';
+// Connection a la base de données
 
-let connection; // Variable globale pour stocker la connexion
+//importe le module Sequelize. Elle permet d'utiliser les fonctionnalités de Sequelize dans le fichier actuel.
+import { Sequelize } from 'sequelize';
 
-const connectDB = async () => {
-  try {
-    connection = await mysql.createConnection({
-      host: '172.17.0.2',
-      port: 3306, // Port MySQL
-      user: 'root',
-      password: 'root',
-      database: 'NOTIMAIL'
+//crée une nouvelle instance Sequelize appelée sequelize.
+// L'instance est configurée pour se connecter à la base de données MySQL appelée 'NOTIMAIL' en utilisant l'utilisateur 'root' et le mot de passe 'root'.
+// il spécifie l'hôte ('localhost') et le port ('55004') sur lequel le serveur MySQL est en cours d'exécution. 
+//La propriété dialect est définie sur 'mysql' pour indiquer que Sequelize doit utiliser MySQL comme dialecte de base de données.
+    const sequelize = new Sequelize('NOTIMAIL', 'root', 'root', {
+      host: 'localhost',
+      port: 55004, // Port MySQL
+      dialect: 'mysql',
     });
 
-    console.log('Connecté à NOTIMAIL');
-    return connection;
-  } catch (error) {
-    console.error('Erreur de connexion à MySQL :', error);
-    throw error;
-  }
-};
-
-export { connectDB, connection }; // Exportez la connexion et la fonction connectDB
-
+    // exporte l'instance Sequelize (sequelize) en tant que constante nommée connection.
+    // Cela permet à d'autres fichiers/modules d'importer cette connexion et d'interagir avec la base de données en utilisant cette instance Sequelize.
+    export const connection =  sequelize;
