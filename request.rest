@@ -1,0 +1,12 @@
+POST http://localhost:3000/user
+Content-Type: application/json
+
+ {
+  "firm_name": "Billie Kriegenhofer",
+  "phone_number": "06-06-06-06-06",
+  "email": "billie@example.com"
+}
+
+###
+GET http://localhost:3000/user
+Content-Type: application/js

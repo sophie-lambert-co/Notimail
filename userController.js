@@ -1,4 +1,22 @@
 import { connection } from './connectDB.js';
+import { User } from './modelUser.js';
+
+
+//* Fonction asynchrone pour créer un nouvel utilisateur
+export async function createUser(req, res) {
+    try {
+      // Crée un nouvel utilisateur avec les données reçues dans la requête
+      const newUser = new User(req.body);
+      // Sauvegarde le nouvel utilisateur dans la base de données
+      await newUser.save();
+      // Répond avec le nouvel utilisateur créé en tant que réponse à la requête
+      res.status(201).json(newUser); // 201 Created
+    } catch (error) {
+      // En cas d'erreur, répond avec un statut 500 et un message d'erreur
+      res.status(500).json({ error: error.message });
+    }
+  }
+
 
 // Récupérer tous les utilisateurs
 export const getAllUsers = async (req, res) => {
