@@ -2,9 +2,9 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "Zara",
-  "phone_number": "09-06-06-06-06",
-  "email": "zara@example.com"
+  "firm_name": "IMTS",
+  "phone_number": "06-06-06-06-06",
+  "email": "imts@example.com"
 }
 
 
@@ -14,4 +14,18 @@ Content-Type: application/js
 
 ###
 GET http://localhost:3000/user/IMTS
-Content-Type: application/js
+Content-Type: application/json
+
+###
+DELETE http://localhost:3000/user/IMTS
+Content-Type: application/json
+
+###
+PUT http://localhost:3000/user/Zara
+Content-Type: application/json
+
+{
+  "firm_name": "Zara",
+  "phone_number": "00-06-06-06-06",
+  "email": "zaza@example.com"
+}

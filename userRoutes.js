@@ -22,9 +22,12 @@ router.get('/user', UserController.getAllUser);
 // Route GET pour récupérer tous les utilisateurs par leurs noms d'entreprises
 router.get('/user/:firm_name', UserController.getUserByFirmName);
 
-// Routes PUT et DELETE sont actuellement commentées
-//router.put('/users/:firm_name', UserController.updateUser);
-//router.delete('/users/:firm_name', UserController.deleteUser);
+// Route PUT pour mettre à jour un utilisateur par son firm_name
+router.put('/user/:firm_name', UserController.updateUser);
+
+// Route DELETE pour supprimer un utilisateur par son firm_name
+router.delete('/user/:firm_name', UserController.deleteUser);
+
 
 // Exportation du routeur pour l'utiliser dans d'autres fichiers
 // Cela permet au fichier index.js ou tout autre fichier de monter ce routeur sur l'application Express
