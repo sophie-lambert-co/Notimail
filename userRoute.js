@@ -4,8 +4,7 @@ import { Router } from 'express';
 
 
 //Importation des fonctions de contrôleur depuis le fichier userController.mjs
-import { createUser, getAllUser, getUserByFirmName } from './userController.js';
-
+import UserController from './userController';
 // Création d'une instance du routeur Express
 const router = Router();
 
@@ -15,13 +14,13 @@ const router = Router();
 
 
 // Route POST pour la création d'un utilisateur
-router.post('/user', createUser);
+router.post('/user', UserController.createUser);
 
 // Route GET pour récupérer tous les utilisateurs
-router.get('/user', getAllUser);
+router.get('/user', UserController.getAllUser);
 
 // Route GET pour récupérer tous les utilisateurs par leurs noms d'entrprises
-router.get('/user/:firm_name', getUserByFirmName);
+router.get('/user/:firm_name', UserController.getUserByFirmName);
 
 // Route PUT pour mettre à jour les informations d'un utilisateur
 //router.put('/users/:firm_name', updateUser);

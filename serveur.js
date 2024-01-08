@@ -1,6 +1,6 @@
 import express from 'express';
-import { connectDB } from './connectDB.js';
-import { getAllUsers } from './userController.js';
+import connection  from './connectDB.js';
+import  getAllUsers  from './userController.js';
 
 const app = express();
 const port = 3000;
@@ -13,7 +13,7 @@ app.get('/users', getAllUsers);
 
 const startServer = async () => {
   try {
-    await connectDB();
+    await connection.authenticate();
     app.listen(port, () => {
       console.log(`Example app listening on port ${port}`);
     });

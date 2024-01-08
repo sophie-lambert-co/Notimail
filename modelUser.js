@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes } from 'sequelize';
-import { connection } from './connectDB.js';
+import  connection  from './connectDB.js';
 
-const UserModel = connection.define('users', {
+const User = connection.define('users', {
   // Model attributes are defined here
   firm_name: {
     type: DataTypes.STRING(25),
@@ -49,4 +49,4 @@ const UserModel = connection.define('users', {
 
 
 
-export const User = UserModel;
+export default User;

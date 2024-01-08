@@ -1,6 +1,6 @@
-import { User } from './modelUser.js';
+import User from './modelUser.js';
 
-export async function verifyFirmName(userFirmName) {
+export default async function verifyFirmName(userFirmName) {
   try {
     const existingUser = await User.findOne({ where: { firm_name: userFirmName } });
 
