@@ -1,15 +1,18 @@
 import express from 'express';
 import connection  from './connectDB.js';
 import  getAllUsers  from './userController.js';
-
+import userRouter from './userRoutes.js';
+import morgan from 'morgan';
 const app = express();
 const port = 3000;
 
+app.use(morgan("dev"))
+app.use(express.json())
 app.get('/', (req, res) => {
   res.send('Hello World!')
 });
 
-app.get('/users', getAllUsers);
+app.use('/', userRouter);
 
 const startServer = async () => {
   try {

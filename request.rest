@@ -1,10 +1,9 @@
 POST http://localhost:3000/user
 Content-Type: application/json
-
  {
-  "firm_name": "McDonald",
-  "phone_number": "06-06-06-06-06",
-  "email": "macdonald@example.com"
+  "firm_name": "IMTS",
+  "phone_number": "08-06-06-06-06",
+  "email": "imts@example.com"
 }
 
 ###
