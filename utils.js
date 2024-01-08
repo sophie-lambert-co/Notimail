@@ -2,6 +2,7 @@ import User from './modelUser.js';
 
 export default async function verifyFirmName(userFirmName) {
   try {
+    console.log(userFirmName)
     const existingUser = await User.findOne({ where: { firm_name: userFirmName } });
 
     if (!existingUser) {

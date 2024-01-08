@@ -1,18 +1,21 @@
-// Connection a la base de données
+// Connexion à la base de données MySQL avec Sequelize
 
-//importe le module Sequelize. Elle permet d'utiliser les fonctionnalités de Sequelize dans le fichier actuel.
+// Importe le module Sequelize pour utiliser ses fonctionnalités dans ce fichier.
 import { Sequelize } from 'sequelize';
 
-//crée une nouvelle instance Sequelize appelée sequelize.
-// L'instance est configurée pour se connecter à la base de données MySQL appelée 'NOTIMAIL' en utilisant l'utilisateur 'root' et le mot de passe 'root'.
-// il spécifie l'hôte ('localhost') et le port ('55004') sur lequel le serveur MySQL est en cours d'exécution. 
-//La propriété dialect est définie sur 'mysql' pour indiquer que Sequelize doit utiliser MySQL comme dialecte de base de données.
+// Crée une nouvelle instance Sequelize nommée "connection".
+// Cette instance est configurée pour se connecter à la base de données MySQL appelée 'NOTIMAIL',
+// en utilisant l'utilisateur 'root' et le mot de passe 'root'.
+// L'instance est paramétrée avec l'hôte ('localhost') et le port ('55004') du serveur MySQL.
+// La propriété "dialect" est définie sur 'mysql' pour spécifier l'utilisation de MySQL comme dialecte de base de données.
 const connection = new Sequelize('NOTIMAIL', 'root', 'root', {
   host: 'localhost',
-  port: 55004, // Port MySQL
+  port: 55004, // Port utilisé pour se connecter au serveur MySQL
   dialect: 'mysql',
 });
 
-// exporte l'instance Sequelize (sequelize) en tant que constante nommée connection.
-// Cela permet à d'autres fichiers/modules d'importer cette connexion et d'interagir avec la base de données en utilisant cette instance Sequelize.
+// Exporte l'instance "connection".
+// Cela permet à d'autres modules/fichiers d'importer cette connexion et d'interagir avec la base de données
+// en utilisant cette même instance Sequelize.
 export default connection;
+
