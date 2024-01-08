@@ -10,7 +10,7 @@ import { Sequelize } from 'sequelize';
 // La propriété "dialect" est définie sur 'mysql' pour spécifier l'utilisation de MySQL comme dialecte de base de données.
 const connection = new Sequelize('NOTIMAIL', 'root', 'root', {
   host: 'localhost',
-  port: 55004, // Port utilisé pour se connecter au serveur MySQL
+  port: 3307, // Port utilisé pour se connecter au serveur MySQL
   dialect: 'mysql',
 });
 

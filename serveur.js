@@ -10,6 +10,7 @@ import userRouter from './userRoutes.js';
 
 // Importe le middleware Morgan pour les logs de requêtes HTTP
 import morgan from 'morgan';
+import User from './modelUser.js';
 
 // Définit le port sur lequel le serveur va écouter les connexions entrantes
 const port = 3000;
@@ -33,6 +34,7 @@ const startServer = async () => {
   try {
     // Vérifie la connexion à la base de données en utilisant la méthode authenticate()
     await connection.authenticate();
+    await User.sync({ force: false });
 
     // Lance le serveur Express pour écouter les connexions entrantes sur le port spécifié
     app.listen(port, () => {
