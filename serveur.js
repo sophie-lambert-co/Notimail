@@ -1,18 +1,18 @@
 // Importe Express et initialise une application
 import express from 'express';
-const app = express();
+import connection from './connectDB.js'; // Importe la connexion à la base de données depuis connectDB.js
+import userRouter from './userRoutes.js'; // Importe le routeur pour la gestion des utilisateurs depuis userRoutes.js
+import morgan from 'morgan'; // Importe le middleware Morgan pour les logs de requêtes HTTP
+import dotenv from 'dotenv';
+import User from './modelUser.js';
+import { generateAdminPassword } from  './utils.js';
 
-// Importe la connexion à la base de données depuis connectDB.js
-import connection from './connectDB.js';
+dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
 
-// Importe le routeur pour la gestion des utilisateurs depuis userRoutes.js
-import userRouter from './userRoutes.js';
-
-// Importe le middleware Morgan pour les logs de requêtes HTTP
-import morgan from 'morgan';
+const app = express(); // Initialise une application Express
 
 // Définit le port sur lequel le serveur va écouter les connexions entrantes
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Utilisation du middleware Morgan pour les logs de développement
 app.use(morgan('dev'));
@@ -28,12 +28,38 @@ app.get('/', (req, res) => {
 // Utilisation du routeur userRouter pour les chemins relatifs à la gestion des utilisateurs
 app.use('/', userRouter);
 
+
+// Ajout du compte administrateur
+const createAdminUser = async () => {
+  try {
+    // Utilise la fonction pour générer le mot de passe administrateur haché
+    const hashedPassword = await generateAdminPassword(); // Appel de la fonction
+    console.log(hashedPassword)
+    // Crée l'utilisateur avec le mot de passe haché généré
+    await User.create({
+      first_name: "Clothilde",
+      last_name: "Sophie",
+      firm_name: "IMTS",
+      email: "imts@example.com",
+      phone_number: "00-00-00-00-00",
+      password: hashedPassword, // Utilise le mot de passe haché généré
+      is_admin: true,
+      has_mail: false
+    });
+    console.log('Compte administrateur créé avec succès.');
+  } catch (error) {
+    console.error('Erreur lors de la création du compte administrateur :', error);
+  }
+};
+
 // Fonction asynchrone pour démarrer le serveur
 const startServer = async () => {
   try {
     // Vérifie la connexion à la base de données en utilisant la méthode authenticate()
     await connection.authenticate();
-
+    await User.sync({ force: false });
+    createAdminUser();
+    
     // Lance le serveur Express pour écouter les connexions entrantes sur le port spécifié
     app.listen(port, () => {
       console.log(`Example app listening on port ${port}`);

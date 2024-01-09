@@ -3,6 +3,7 @@ import { Router } from 'express';
 
 // Importation du contrôleur d'utilisateurs depuis le fichier userController.js
 import userController from './userController.js';
+import Auth from './auth.js';
 
 // Création d'une instance du routeur Express
 const router = Router();
@@ -20,7 +21,7 @@ router.post('/user', UserController.createUser);
 router.get('/user', UserController.getAllUser);
 
 // Route GET pour récupérer tous les utilisateurs par leurs noms d'entreprises
-router.get('/user/:firm_name', UserController.getUserByFirmName);
+router.get('/user/:firm_name', Auth, UserController.getUserByFirmName);
 
 // Route PUT pour mettre à jour un utilisateur par son firm_name
 router.put('/user/:firm_name', UserController.updateUser);

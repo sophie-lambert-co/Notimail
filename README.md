@@ -74,3 +74,28 @@ Installation : Installez le package jsonwebtoken via npm :
 npm install jsonwebtoken
 
 - Utilisation : JWT est utile pour générer des tokens lors de l'authentification réussie et pour vérifier l'authenticité de ces tokens lorsqu'ils sont reçus dans les requêtes ultérieures.
+
+
+
+## Il faut cree un compte admin.
+
+- Creation d'un compte Admin dans le serveur.js en passant  await User.sync({ force: true });
+    En cryptage automatique du mot de passe 
+
+- Creation des compte user dans le controller avec genration automatique ou NON ( au choix ) d'un mot de passe a 4 chiffres crypter. 
+
+
+
+### A faire 
+
+- Seul les administrateurs peuvent changer les mots de passe si ceux si ne conviennent pas aux utilisateurs.
+
+- Envoie par mail des mots de passes Admin et user + informations utilisateurs
+
+- Creation de la fonction loging dans le controller + la route loging ( avec cookies et token)
+
+- dans auth creation de la fonction qui va verifier le cookie 
+
+- ATTENTION : Middlewear VS Utils.js ??
+
+- Gestion des mails
