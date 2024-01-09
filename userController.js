@@ -7,6 +7,7 @@ import { verifyFirmName, saltRounds } from "./utils.js";
 
 // Classe userController pour gérer les différentes actions liées aux utilisateurs
 class userController {
+
   // Fonction asynchrone pour créer un nouvel utilisateur
   async createUser(req, res) {
     try {
@@ -28,7 +29,7 @@ class userController {
       }
       hashedCode = await bcrypt.hash(userCode, saltRounds); // Hachage du code
       console.log(hashedCode, userCode);
-newUser.password = hashedCode
+      newUser.password = hashedCode;
       // Sauvegarde le nouvel utilisateur dans la base de données
       await newUser.save();
       // Répond avec le nouvel utilisateur créé en tant que réponse à la requête avec le statut 201 (Created)
@@ -65,11 +66,9 @@ newUser.password = hashedCode
 
       if (!isValidFirmName) {
         // Si le nom d'entreprise n'est pas valide, répond avec un statut 400 et un message d'erreur
-        return res
-          .status(400)
-          .json({
-            message: "Le firm_name n'existe pas dans la base de données",
-          });
+        return res.status(400).json({
+          message: "Le firm_name n'existe pas dans la base de données",
+        });
       }
 
       // Récupère l'utilisateur depuis la base de données par son firm_name
@@ -102,11 +101,9 @@ newUser.password = hashedCode
 
       if (!isValidFirmName) {
         // Si le nom d'entreprise n'est pas valide, répond avec un statut 400 et un message d'erreur
-        return res
-          .status(400)
-          .json({
-            message: "Le firm_name n'existe pas dans la base de données",
-          });
+        return res.status(400).json({
+          message: "Le firm_name n'existe pas dans la base de données",
+        });
       }
 
       // Récupère les champs à mettre à jour depuis le corps de la requête
@@ -145,11 +142,9 @@ newUser.password = hashedCode
 
       if (!isValidFirmName) {
         // Si le nom d'entreprise n'est pas valide, répond avec un statut 400 et un message d'erreur
-        return res
-          .status(400)
-          .json({
-            message: "Le firm_name n'existe pas dans la base de données",
-          });
+        return res.status(400).json({
+          message: "Le firm_name n'existe pas dans la base de données",
+        });
       }
 
       // Supprime l'utilisateur par son firm_name depuis la base de données

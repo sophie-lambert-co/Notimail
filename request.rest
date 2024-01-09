@@ -29,3 +29,12 @@ Content-Type: application/json
   "phone_number": "00-06-06-06-06",
   "email": "zaza@example.com"
 }
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "firm_name": "Antoin", 
+    "password": "1234" 
+}
