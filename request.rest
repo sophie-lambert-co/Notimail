@@ -35,6 +35,169 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "firm_name": "Antoin", 
+    "firm_name": "Antoine", 
     "password": "1234" 
+}
+
+
+### Entreprise 1 ###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firm_name": "ACME Corporation",
+  "first_name": "John",
+  "last_name": "Smith",
+  "email": "john.smith@acme.com",
+  "phone_number": "1234567890",
+  "password": "1234",
+  "last_received_mail": "2023-12-24",
+  "last_picked_up": "2023-12-26",
+  "has_mail": true,
+  "is_admin": false
+}
+
+### Entreprise 2 ###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firm_name": "ABC Industries",
+  "first_name": "Alice",
+  "last_name": "Johnson",
+  "email": "alice.johnson@abc.com",
+  "phone_number": "9876543210",
+  "password": "5678",
+  "last_received_mail": "2023-12-15",
+  "last_picked_up": "2023-12-10",
+  "has_mail": true,
+  "is_admin": false
+}
+
+### Entreprise 3 ###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firm_name": "Globex Corporation",
+  "first_name": "Emma",
+  "last_name": "Brown",
+  "email": "emma.brown@globex.com",
+  "phone_number": "5555555555",
+  "password": "9012",
+  "last_received_mail": "2023-12-16",
+  "last_picked_up": "2023-12-18",
+  "has_mail": true,
+  "is_admin": false
+}
+
+### Entreprise 4 ###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firm_name": "Wayne Enterprises",
+  "first_name": "Bruce",
+  "last_name": "Wayne",
+  "email": "bruce.wayne@wayneent.com",
+  "phone_number": "1112223333",
+  "password": "",
+  "last_received_mail": "2023-12-31",
+  "last_picked_up": "2023-01-10",
+  "has_mail": true,
+  "is_admin": false
+}
+
+### Entreprise 5 ###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firm_name": "Stark Industries",
+  "first_name": "Tony",
+  "last_name": "Stark",
+  "email": "tony.stark@starkind.com",
+  "phone_number": "4445556666",
+  "password": "",
+  "last_received_mail": "2023-01-05",
+  "last_picked_up": "2023-01-07",
+  "has_mail": true,
+  "is_admin": false
+}
+
+### Entreprise 6 ###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firm_name": "Umbrella Corporation",
+  "first_name": "Alice",
+  "last_name": "Redfield",
+  "email": "alice.redfield@umbcorp.com",
+  "phone_number": "7778889999",
+  "password": "",
+  "last_received_mail": "2023-12-31",
+  "last_picked_up": "2023-12-14",
+  "has_mail": true,
+  "is_admin": false
+}
+
+### Entreprise 7 ###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firm_name": "Weyland Corporation",
+  "first_name": "Ellen",
+  "last_name": "Ripley",
+  "email": "ellen.ripley@weyland.com",
+  "phone_number": "3334445555",
+  "password": "",
+  "last_received_mail": "2023-12-31",
+  "last_picked_up": "2023-12-15",
+  "has_mail": true,
+  "is_admin": false
+}
+
+### Entreprise 8 ###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firm_name": "Soylent Corporation",
+  "first_name": "Robert",
+  "last_name": "Thorn",
+  "email": "robert.thorn@soylent.com",
+  "phone_number": "8889990000",
+  "password": "",
+  "last_received_mail": "2023-01-10",
+  "last_picked_up": "2023-12-31",
+  "has_mail": true,
+  "is_admin": false
+}
+
+### Entreprise 9 ###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firm_name": "Tyrell Corporation",
+  "first_name": "Eldon",
+  "last_name": "Tyrell",
+  "email": "eldon.tyrell@tyrellcorp.com",
+  "phone_number": "1112223333",
+  "password": "",
+  "last_received_mail": "2023-01-02",
+  "last_picked_up": "2023-01-05",
+  "has_mail": true,
+  "is_admin": false
 }

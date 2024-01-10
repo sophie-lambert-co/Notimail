@@ -1,25 +1,37 @@
+// Importe la bibliothèque JSON Web Token (JWT)
 import jwt from 'jsonwebtoken';
 
+// Clé secrète pour la signature et la vérification du token
 const secretKey = 'JWT_SECRET';
 
-export default function authenticateUser(req, res , next) {
+// Fonction middleware pour l'authentification des utilisateurs
+//Définit une fonction middleware nommée authenticateUser qui prend en paramètres req (la requête), res (la réponse) et next (la fonction suivante à appeler).
+export default function authenticateUser(req, res, next) {
+    // Récupère le token depuis le cookie de la requête  supposant qu'il est stocké dans un cookie appelé token.
+    const token = req.cookies.token;
 
-    const token = req.cookies.token; // Récupère le token depuis le cookie
-
+    // Vérifie la présence du token dans la requête
     if (!token) {
+        // Renvoie une erreur si aucun token n'est trouvé
         return res.status(401).json({ message: 'Authentification requise' });
-      }
-    
-      jwt.verify(token, secretKey, (err, decoded) => {
+    }
+
+    // Vérifie la validité du token
+    jwt.verify(token, secretKey, (err, decoded) => {
+        // Gère les erreurs de vérification du token
         if (err) {
-          return res.status(401).json({ message: 'Token invalide' });
+            // Renvoie une erreur si le token est invalide
+            return res.status(401).json({ message: 'Token invalide' });
         }
-        
-        // Stocke les informations de l'utilisateur dans l'objet de requête pour une utilisation ultérieure
+
+        // Stocke les informations de l'utilisateur dans l'objet de requête
         req.user = decoded;
+
+        // Passe au middleware ou à la fonction de routage suivante
         next();
-      });
-    };
+    });
+};
+
   
 
   

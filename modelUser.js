@@ -6,7 +6,7 @@ import connection from './connectDB.js'; // Importe la connexion à la base de d
 const User = connection.define('users', {
   // Définition des attributs du modèle User avec leurs types et propriétés
   firm_name: {
-    type: DataTypes.STRING(25), // Type de données : chaîne de caractères d'une longueur maximale de 25 caractères
+    type: DataTypes.STRING(45), // Type de données : chaîne de caractères d'une longueur maximale de 25 caractères
     allowNull: false, // La valeur ne peut pas être nulle
     primaryKey: true // Clé primaire de la table
   },

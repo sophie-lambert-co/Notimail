@@ -39,15 +39,8 @@ export async function generateAdminPassword() {
   return hashedPassword
 }
 
-// code utilisateur
 
-export async function generateRandomCode () {
-  const code = Math.floor(1000 + Math.random() * 9000);
-  const userCode =code.toString().padStart(4, '0'); // Assurez-vous d'avoir toujours 4 chiffres
-  const hashedCode= await bcrypt.hash(userCode, saltRounds); // Hachage du code
-  console.log('Code utilisateur généré :', hashedCode);
-  return hashedCode
-};
+
 
 
 

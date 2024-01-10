@@ -92,10 +92,20 @@ Sinon , message d'érreur.
 
 ### A faire 
 
-- Seul les administrateurs peuvent changer les mots de passe si ceux si ne conviennent pas aux utilisateurs.
+- 
+
+- Seul les administrateurs peuvent changer les mots de passe si ceux si ne conviennent pas aux utilisateurs. Faire le middleWEar is Admin 
+
 
 - Envoie par mail des mots de passes Admin et user + informations utilisateurs
+
 
 - ATTENTION : Middlewear VS Utils.js ??
 
 - Gestion des mails
+
+- Client : Le client peut consulter si il a du courrier en attente
+- Accuser la recuperation du courrier
+
+- Admin : ajouter a la liste des notifications a envoyé
+Avoir une vue recaplitulative des notifications envoyées.

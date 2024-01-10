@@ -19,7 +19,7 @@ const UserController = new userController();
 router.post('/login', loginUser);
 
 // Route POST pour la création d'un utilisateur
-router.post('/user',authenticateUser, UserController.createUser);
+router.post('/user', UserController.createUser);
 
 // Route GET pour récupérer tous les utilisateurs
 router.get('/user',authenticateUser, UserController.getAllUser);
