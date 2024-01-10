@@ -25,7 +25,7 @@ const User = connection.define('users', {
     allowNull: false // La valeur ne peut pas être nulle
   },
   password: {
-    type: DataTypes.STRING(25)
+    type: DataTypes.STRING(400)
   },
   last_received_mail: {
     type: DataTypes.DATE // Type de données : date

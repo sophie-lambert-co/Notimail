@@ -1,7 +1,8 @@
-// Connexion à la base de données MySQL avec Sequelize
-
 // Importe le module Sequelize pour utiliser ses fonctionnalités dans ce fichier.
-import { Sequelize } from 'sequelize';
+import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
+
+dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
 
 // Crée une nouvelle instance Sequelize nommée "connection".
 // Cette instance est configurée pour se connecter à la base de données MySQL appelée 'NOTIMAIL',
@@ -18,4 +19,3 @@ const connection = new Sequelize('NOTIMAIL', 'root', 'root', {
 // Cela permet à d'autres modules/fichiers d'importer cette connexion et d'interagir avec la base de données
 // en utilisant cette même instance Sequelize.
 export default connection;
-
