@@ -6,6 +6,8 @@ import morgan from 'morgan'; // Importe le middleware Morgan pour les logs de re
 import dotenv from 'dotenv';
 import User from './modelUser.js';
 import { generateAdminPassword } from  './utils.js';
+import cors from 'cors'
+
 
 dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
 
@@ -28,6 +30,7 @@ app.get('/', (req, res) => {
 // Utilisation du routeur userRouter pour les chemins relatifs à la gestion des utilisateurs
 app.use('/', userRouter);
 
+app.use(cors())
 
 // Ajout du compte administrateur
 const createAdminUser = async () => {
@@ -40,12 +43,13 @@ const createAdminUser = async () => {
       first_name: "Clothilde",
       last_name: "Sophie",
       firm_name: "IMTS",
-      email: "imts@example.com",
+      email: "sophie.lambert@institutsolacroup.com",
       phone_number: "00-00-00-00-00",
       password: hashedPassword, // Utilise le mot de passe haché généré
       is_admin: true,
       has_mail: false
     });
+
     console.log('Compte administrateur créé avec succès.');
   } catch (error) {
     console.error('Erreur lors de la création du compte administrateur :', error);
@@ -70,6 +74,14 @@ const startServer = async () => {
     process.exit(1);
   }
 };
+
+app.get('/products/:id', function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for all origins!'})
+})
+
+app.listen(80, function () {
+  console.log('CORS-enabled web server listening on port 80')
+})
 
 // Appel de la fonction startServer pour démarrer le serveur
 startServer();

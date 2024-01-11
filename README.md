@@ -90,18 +90,46 @@ Il va falloir d'abord voir si le firm_name existe dans la base de données.
 Si oui, comparerles password envoyé avec password stocké dans un variable qui correspond a celui de la base de donnée du firm_name validé juste avant . 
 Sinon , message d'érreur. 
 
-### A faire 
-
-- 
 
 - Seul les administrateurs peuvent changer les mots de passe si ceux si ne conviennent pas aux utilisateurs. Faire le middleWEar is Admin 
 
+### Mettre en place la possibilité d'envois de mails
 
-- Envoie par mail des mots de passes Admin et user + informations utilisateurs
+- configurer l'envoi d'e-mails automatiques dans votre application Node.js. Pour envoyer des e-mails,
+
+- npm install nodemailer
+- Créer un fichier pour la configuration de Nodemailer
+- Utiliser ce fichier dans votre application principale
 
 
-- ATTENTION : Middlewear VS Utils.js ??
 
+## - CORS CROSS ORIGIN ( HTTTP, HOST, PORT)
+
+- installer CORS
+npm install cors
+
+- importer le module dans serveur.js
+- creer la gestion des erreurs
+
+var express = require('express')
+var cors = require('cors')
+var app = express()
+
+app.use(cors())
+
+app.get('/products/:id', function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for all origins!'})
+})
+
+app.listen(80, function () {
+  console.log('CORS-enabled web server listening on port 80')
+})
+
+### A faire
+
+- Envoie par mail des mots de passes Admin et user + informations utilisateurs ( 2 mails differents)
+
+- Envoie par sms et mail la notification de courrier 
 - Gestion des mails
 
 - Client : Le client peut consulter si il a du courrier en attente
@@ -109,3 +137,7 @@ Sinon , message d'érreur.
 
 - Admin : ajouter a la liste des notifications a envoyé
 Avoir une vue recaplitulative des notifications envoyées.
+
+- CORS CROSS ORIGIN ( HTTTP, HOST, PORT)
+
+- refaire le .env

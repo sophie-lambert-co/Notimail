@@ -28,6 +28,7 @@ const generateToken = (userData) => {
   return jwt.sign(userData, secretKey, { expiresIn: '1h' });
 };
 
+
 // Fonction de connexion de l'utilisateur
 const loginUser = async (req, res) => {
   // Extraction des données firm_name et password depuis le corps de la requête HTTP
@@ -62,11 +63,11 @@ const loginUser = async (req, res) => {
 
     // Stocke le token dans un cookie sécurisé (httpOnly et secure)
     // pour une utilisation ultérieure lors des requêtes à l'API
-    res.cookie('token', token, { httpOnly: true, secure: true });
+    res.cookie('token', token, { httpOnly: true, secure: false });
 
     // Répond à la requête avec un statut 200 (OK) et un message de succès
     // contenant le token JWT généré pour l'utilisateur
-    res.json({ message: 'Connexion réussie', token });
+    res.json({ message: 'Connexion réussie', user: user });
   } catch (error) {
     // En cas d'erreur lors du processus d'authentification, capture et gère l'erreur
     // Affiche l'erreur dans la console à des fins de débogage ou de suivi

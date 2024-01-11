@@ -5,12 +5,14 @@ import { Router } from 'express';
 import userController from './userController.js';
 import authenticateUser from './authMiddleware.js';
 import loginUser from './authController.js';
+import sendNotificationController from './notificationController.js';
 
 // Création d'une instance du routeur Express
 const router = Router();
 
 // Création d'une instance du contrôleur UserController
 const UserController = new userController();
+const SendNotificationController = new sendNotificationController();
 
 // Définition des routes pour la gestion des utilisateurs
 // Chaque route est associée à une fonction spécifique du contrôleur
@@ -22,16 +24,20 @@ router.post('/login', loginUser);
 router.post('/user', UserController.createUser);
 
 // Route GET pour récupérer tous les utilisateurs
-router.get('/user',authenticateUser, UserController.getAllUser);
+router.get('/user', UserController.getAllUser);
 
 // Route GET pour récupérer tous les utilisateurs par leurs noms d'entreprises
-router.get('/user/:firm_name', authenticateUser, UserController.getUserByFirmName);
+router.get('/user/:firm_name', UserController.getUserByFirmName);
 
 // Route PUT pour mettre à jour un utilisateur par son firm_name
-router.put('/user/:firm_name',authenticateUser, UserController.updateUser);
+router.put('/user/:firm_name', UserController.updateUser);
+
+// Route pour l'envoi des notifications
+router.post('/send', SendNotificationController.sendNotification);
 
 // Route DELETE pour supprimer un utilisateur par son firm_name
-router.delete('/user/:firm_name',authenticateUser, UserController.deleteUser);
+router.delete('/user/:firm_name', UserController.deleteUser);
+
 
 
 // Exportation du routeur pour l'utiliser dans d'autres fichiers

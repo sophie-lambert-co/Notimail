@@ -21,22 +21,45 @@ DELETE http://localhost:3000/user/IMTS
 Content-Type: application/json
 
 ###
-PUT http://localhost:3000/user/Zara
+
+PUT http://localhost:3000/user/ACMECorporation
 Content-Type: application/json
 
 {
-  "firm_name": "Zara",
-  "phone_number": "00-06-06-06-06",
-  "email": "zaza@example.com"
+   "firm_name": "ACMECorporation",
+  "first_name": "John",
+  "last_name": "Smith",
+  "email": "clothilde.perron@institutsolacroup.com",
+  "phone_number": "1234567890",
+  "password": "1234",
+  "last_received_mail": "2023-12-24",
+  "last_picked_up": "2023-12-26",
+  "has_mail": true,
+  "is_admin": false
 }
 
 ###
+
+POST http://localhost:3000/send
+Content-Type: application/json
+
+{
+  "listNotif": [
+    { "firm_name": "ACMECorporation" },
+    { "firm_name": "IMTS" }
+  ]
+}
+
+
+
+### 
+
 POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "firm_name": "Antoine", 
-    "password": "1234" 
+  "firm_name": "IMTS",
+  "password": "root"
 }
 
 
@@ -46,7 +69,7 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "ACME Corporation",
+  "firm_name": "ACMECorporation",
   "first_name": "John",
   "last_name": "Smith",
   "email": "john.smith@acme.com",
@@ -64,7 +87,7 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "ABC Industries",
+  "firm_name": "ABCIndustries",
   "first_name": "Alice",
   "last_name": "Johnson",
   "email": "alice.johnson@abc.com",
@@ -82,7 +105,7 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "Globex Corporation",
+  "firm_name": "Globex-Corporation",
   "first_name": "Emma",
   "last_name": "Brown",
   "email": "emma.brown@globex.com",
@@ -100,7 +123,7 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "Wayne Enterprises",
+  "firm_name": "Wayne-Enterprises",
   "first_name": "Bruce",
   "last_name": "Wayne",
   "email": "bruce.wayne@wayneent.com",
@@ -118,7 +141,7 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "Stark Industries",
+  "firm_name": "Stark-Industries",
   "first_name": "Tony",
   "last_name": "Stark",
   "email": "tony.stark@starkind.com",
@@ -136,7 +159,7 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "Umbrella Corporation",
+  "firm_name": "Umbrella-Corporation",
   "first_name": "Alice",
   "last_name": "Redfield",
   "email": "alice.redfield@umbcorp.com",
@@ -154,7 +177,7 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "Weyland Corporation",
+  "firm_name": "Weyland-Corporation",
   "first_name": "Ellen",
   "last_name": "Ripley",
   "email": "ellen.ripley@weyland.com",
@@ -172,7 +195,7 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "Soylent Corporation",
+  "firm_name": "Soylent-Corporation",
   "first_name": "Robert",
   "last_name": "Thorn",
   "email": "robert.thorn@soylent.com",
@@ -190,7 +213,7 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "Tyrell Corporation",
+  "firm_name": "Tyrell-Corporation",
   "first_name": "Eldon",
   "last_name": "Tyrell",
   "email": "eldon.tyrell@tyrellcorp.com",

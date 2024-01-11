@@ -4,6 +4,7 @@ import User from "./modelUser.js";
 // Import du module bcrypt pour le hachage du mot de passe
 import bcrypt from "bcrypt";
 import { verifyFirmName, saltRounds } from "./utils.js";
+import { sendEmail } from './emailConfig.js'; // Importer le fichier de configuration d'e-mail
 
 // Classe userController pour gérer les différentes actions liées aux utilisateurs
 class userController {
@@ -78,7 +79,8 @@ class userController {
         // Si l'utilisateur n'est pas trouvé, répond avec un statut 404 et un message d'erreur
         return res.status(404).json({ message: "Utilisateur non trouvé" });
       }
-
+          // Renvoie les données de l'utilisateur
+      return user;
       // Répond avec les données de l'utilisateur
       res.json(user);
     } catch (error) {
@@ -120,8 +122,20 @@ class userController {
         return res.status(404).json({ message: "Utilisateur non trouvé" });
       }
 
-      // Récupère les données de l'utilisateur mis à jour depuis la base de données
-      // const updatedUser = await User.findOne({ where: { firm_name: nomEntreprise } });
+      // Récupère l'adresse e-mail du nouvel administrateur après la mise à jour
+      const newInfoUserEmail = updatedFields.email; // Mettez ici le champ qui contient l'adresse e-mail du nouvel 
+
+      // Options de l'e-mail pour le compte administrateur
+     const mailOptions = {
+      from: 'sophie.lambert@institutsolacroup.com', // ici mettre l'adress de l'Administrateur principal
+      to: newInfoUserEmail, // ici mettre l'adresse du nouvel Administrateur
+      subject: 'Modification de vos informations personelles',
+      text: 'Bonjour, Votre compte utilisateur a été modifié avec succès.',
+    };
+    console.log(newInfoUserEmail)
+
+    // Appel de la fonction pour envoyer l'e-mail
+    await sendEmail(mailOptions);
 
       // Répond avec les données de l'utilisateur mises à jour
       res.json(req.body);
