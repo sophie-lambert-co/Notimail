@@ -1,12 +1,12 @@
 // Importe Express et initialise une application
 import express from "express";
 import connection from "./connectDB.js"; // Importe la connexion à la base de données depuis connectDB.js
-import userRouter from "./userRoutes.js"; // Importe le routeur pour la gestion des utilisateurs depuis userRoutes.js
+import userRouter from "./routes/userRoutes.js"; // Importe le routeur pour la gestion des utilisateurs depuis userRoutes.js
 import morgan from "morgan"; // Importe le middleware Morgan pour les logs de requêtes HTTP
 import dotenv from "dotenv";
-import User from "./modelUser.js";
+import User from "./modeles/modelUser.js";
 import cors from "cors";
-import createAdminUser from './adminControlleur.js';
+import createAdminUser from './controllers/adminController.js';
 
 
 dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
@@ -33,33 +33,8 @@ app.use("/", userRouter);
 app.use(cors());
 
 // Ajout du compte administrateur
-//createAdminUser ();
+createAdminUser ();
 
-// const createAdminUser = async () => {
-//   try {
-//     // Utilise la fonction pour générer le mot de passe administrateur haché
-//     const hashedPassword = await generateAdminPassword(); // Appel de la fonction
-//     console.log(hashedPassword);
-//     // Crée l'utilisateur avec le mot de passe haché généré
-//     await User.create({
-//       first_name: "Clothilde",
-//       last_name: "Sophie",
-//       firm_name: "IMTS",
-//       email: "sophie.lambert@institutsolacroup.com",
-//       phone_number: "00-00-00-00-00",
-//       password: hashedPassword, // Utilise le mot de passe haché généré
-//       is_admin: true,
-//       has_mail: false,
-//     });
-
-//     console.log("Compte administrateur créé avec succès.");
-//   } catch (error) {
-//     console.error(
-//       "Erreur lors de la création du compte administrateur :",
-//       error
-//     );
-//   }
-// };
 
 // Fonction asynchrone pour démarrer le serveur
 const startServer = async () => {
@@ -68,7 +43,7 @@ const startServer = async () => {
     await connection.authenticate();
 
     // Synchronise le modèle User avec la base de données
-    await User.sync({ force: false });
+    await User.sync({ force: true });
 
     // Appelle la fonction pour créer le compte administrateur une fois que la synchronisation est terminée
     //await createAdminUser();
