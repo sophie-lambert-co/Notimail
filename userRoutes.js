@@ -5,17 +5,20 @@ import { Router } from 'express';
 import userController from './userController.js';
 import authenticateUser from './authMiddleware.js';
 import loginUser from './authController.js';
-import sendNotificationController from './notificationController.js';
+import createAdminUser  from './adminControlleur.js';
 
 // Création d'une instance du routeur Express
 const router = Router();
 
 // Création d'une instance du contrôleur UserController
 const UserController = new userController();
-const SendNotificationController = new sendNotificationController();
 
 // Définition des routes pour la gestion des utilisateurs
 // Chaque route est associée à une fonction spécifique du contrôleur
+
+// Route pour la creation d'un admin
+router.post('/admin', createAdminUser);
+
 
 // Route pour la connexion de l'utilisateur
 router.post('/login', loginUser);
@@ -33,7 +36,7 @@ router.get('/user/:firm_name', UserController.getUserByFirmName);
 router.put('/user/:firm_name', UserController.updateUser);
 
 // Route pour l'envoi des notifications
-router.post('/send', SendNotificationController.sendNotification);
+router.put('/send', UserController.sendNotification);
 
 // Route DELETE pour supprimer un utilisateur par son firm_name
 router.delete('/user/:firm_name', UserController.deleteUser);

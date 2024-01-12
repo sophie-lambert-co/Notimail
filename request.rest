@@ -27,7 +27,7 @@ Content-Type: application/json
 
 {
    "firm_name": "ACMECorporation",
-  "first_name": "John",
+  "first_name": "Johne",
   "last_name": "Smith",
   "email": "clothilde.perron@institutsolacroup.com",
   "phone_number": "1234567890",
@@ -40,13 +40,13 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/send
+PUT http://localhost:3000/send
 Content-Type: application/json
 
 {
   "listNotif": [
     { "firm_name": "ACMECorporation" },
-    { "firm_name": "IMTS" }
+    { "firm_name": "ABCIndustries" }
   ]
 }
 

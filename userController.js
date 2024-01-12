@@ -4,11 +4,11 @@ import User from "./modelUser.js";
 // Import du module bcrypt pour le hachage du mot de passe
 import bcrypt from "bcrypt";
 import { verifyFirmName, saltRounds } from "./utils.js";
-import { sendEmail } from './emailConfig.js'; // Importer le fichier de configuration d'e-mail
+import { sendEmail } from "./emailConfig.js"; // Importer le fichier de configuration d'e-mail
+import { Sequelize } from "sequelize";
 
 // Classe userController pour gérer les différentes actions liées aux utilisateurs
 class userController {
-
   // Fonction asynchrone pour créer un nouvel utilisateur
   async createUser(req, res) {
     try {
@@ -79,7 +79,7 @@ class userController {
         // Si l'utilisateur n'est pas trouvé, répond avec un statut 404 et un message d'erreur
         return res.status(404).json({ message: "Utilisateur non trouvé" });
       }
-          // Renvoie les données de l'utilisateur
+      // Renvoie les données de l'utilisateur
       return user;
       // Répond avec les données de l'utilisateur
       res.json(user);
@@ -95,11 +95,11 @@ class userController {
     try {
       // Récupère le nom d'entreprise depuis les paramètres de la requête
       const nomEntreprise = req.params.firm_name;
-      console.log("updateUser firm_name :", nomEntreprise);
+      //console.log("updateUser firm_name :", nomEntreprise);
 
       // Vérifie si le nom d'entreprise est valide dans la base de données
       const isValidFirmName = await verifyFirmName(nomEntreprise);
-      console.log("updateUser nom entrprise", nomEntreprise);
+      //console.log("updateUser nom entrprise", nomEntreprise);
 
       if (!isValidFirmName) {
         // Si le nom d'entreprise n'est pas valide, répond avec un statut 400 et un message d'erreur
@@ -119,29 +119,35 @@ class userController {
 
       if (rowsUpdated === 0) {
         // Si aucun enregistrement n'est mis à jour, cela signifie que l'utilisateur n'a pas été trouvé
-        return res.status(404).json({ message: "Utilisateur non trouvé" });
+        return res
+          .status(404)
+          .json({ success: false, message: "Utilisateur non trouvé" });
       }
 
       // Récupère l'adresse e-mail du nouvel administrateur après la mise à jour
-      const newInfoUserEmail = updatedFields.email; // Mettez ici le champ qui contient l'adresse e-mail du nouvel 
+      const newInfoUserEmail = updatedFields.email; // Mettez ici le champ qui contient l'adresse e-mail du nouvel
 
       // Options de l'e-mail pour le compte administrateur
-     const mailOptions = {
-      from: 'sophie.lambert@institutsolacroup.com', // ici mettre l'adress de l'Administrateur principal
-      to: newInfoUserEmail, // ici mettre l'adresse du nouvel Administrateur
-      subject: 'Modification de vos informations personelles',
-      text: 'Bonjour, Votre compte utilisateur a été modifié avec succès.',
-    };
-    console.log(newInfoUserEmail)
+      const mailOptions = {
+        from: "sophie.lambert@institutsolacroup.com", // ici mettre l'adress de l'Administrateur principal
+        to: newInfoUserEmail, // ici mettre l'adresse du nouvel Administrateur
+        subject: "Modification de vos informations personelles",
+        text: "Bonjour, Votre compte utilisateur a été modifié avec succès.",
+      };
+      console.log(newInfoUserEmail);
 
-    // Appel de la fonction pour envoyer l'e-mail
-    await sendEmail(mailOptions);
+      //Appel de la fonction pour envoyer l'e-mail
+      await sendEmail(mailOptions);
 
       // Répond avec les données de l'utilisateur mises à jour
-      res.json(req.body);
+      res.json({
+        success: true,
+        message: "Mise à jour réussie.",
+        updatedUser: req.body,
+      });
     } catch (error) {
       // En cas d'erreur, répond avec un statut 500 et un message d'erreur
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ success: false, error: error.message });
     }
   }
 
@@ -177,6 +183,63 @@ class userController {
     } catch (error) {
       // En cas d'erreur, répond avec un statut 500 et un message d'erreur
       res.status(500).json({ error: error.message });
+    }
+  }
+
+  async sendNotification(req, res) {
+    try {
+      const tab = req.body.listNotif;
+      console.log(tab);
+
+      for (let i = 0; i < tab.length; i++) {
+        if (!tab[i].firm_name) {
+          // Vérification si le nom de l'entreprise existe dans l'objet
+          res.status(400).send("Le format de la notification est incorrect.");
+          return;
+        } else {
+          await User.update(
+            {
+              has_mail: true,
+              last_received_mail: Sequelize.literal("CURRENT_TIMESTAMP"),
+            },
+            {
+              where: { firm_name: tab[i].firm_name }, // Correction de la clé firrm_name à firm_name
+            }
+          );
+
+          // Récupère l'adresse e-mail du nouvel administrateur après la mise à jour
+          const updatedUser = await User.findOne({
+            where: { firm_name: tab[i].firm_name },
+            attributes: ["email"],
+          });
+
+          const updateUserNotif = updatedUser ? updatedUser.email : null;
+          console.log(updateUserNotif);
+
+          // Options de l'e-mail pour le compte administrateur
+          const mailOptions = {
+            from: "sophie.lambert@institutsolacroup.com", // ici mettre l'adress de l'Administrateur principal
+            to: updateUserNotif, // ici mettre l'adresse du nouvel Administrateur
+            subject: "Vous avez reçu du courrier",
+            text: "Bonjour, Merci de venir recuperer votre courrier au 4O.",
+          };
+          console.log(updateUserNotif);
+
+          //Appel de la fonction pour envoyer l'e-mail
+          await sendEmail(mailOptions);
+        }
+      }
+
+      res
+        .status(200)
+        .send("Utilisateurs modifiés avec succès et envoi de mail ok");
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send(
+          "Erreur lors de la mise à jour des utilisateurs et de l'envoi du mail."
+        );
     }
   }
 }
