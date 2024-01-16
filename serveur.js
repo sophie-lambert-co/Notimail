@@ -55,8 +55,7 @@ app.use("/", userRouter);
 
 app.use(cors());
 
-// Ajout du compte administrateur
-createAdminUser ();
+
 
 
 // Fonction asynchrone pour démarrer le serveur
@@ -68,13 +67,6 @@ const startServer = async () => {
     // Synchronise le modèle User avec la base de données
     await User.sync({ force: false });
 
-    // Appelle la fonction pour créer le compte administrateur une fois que la synchronisation est terminée
-    //await createAdminUser();
-
-    // Lance le serveur Express pour écouter les connexions entrantes sur le port spécifié
-    app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`);
-    });
   } catch (error) {
     // En cas d'erreur lors du démarrage du serveur, affiche l'erreur et termine le processus avec le code 1
     console.error("Erreur lors du démarrage du serveur :", error);
@@ -83,9 +75,12 @@ const startServer = async () => {
 };
 
 
-app.listen(80, function () {
-  console.log("CORS-enabled web server listening on port 80");
+app.listen(port, function () {
+     // Lance le serveur Express pour écouter les connexions entrantes sur le port spécifié
+startServer()
+// Ajout du compte administrateur
+createAdminUser ();
+
 });
 
-// Appel de la fonction startServer pour démarrer le serveur
-startServer();
+
