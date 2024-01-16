@@ -703,7 +703,20 @@ L'application sera accessible à l'adresse <http://localhost:3000> . Cette confi
 
 ## Fonctionalitées du site
 
-### Compte administrateur
+### Users
+
+- **Identification** : Les clients peuvent s'identifier dans le service en choisissant leur entreprise dans un menu défilant et en entrant un code à 4 chiffres.
+- **Consultation de Courrier** : Les clients peuvent consulter si ils ont du courrier en attente.
+- **Accusé de Réception** : Les clients peuvent accuser la récupération de leur courrier.
+
+### Admins
+
+- **Gestion des Users** : Les admins peuvent voir la liste des users et leur statut de courrier actuel.
+- **Notifications** : Possibilité d'ajouter des users à la liste des notifications à envoyer en un clic.
+- **Vue Récapitulative** : Les admins ont accès à une vue récapitulative des notifications à envoyer.
+- **Gestion des Utilisateurs** : Capacité d'ajouter, modifier et supprimer des utilisateurs et de passer un user en admin ainsi que de modifier les mots de passes.
+
+### Super Admin
 
 L'application propose une fonctionnalité de création automatique d'un compte super administrateur lors du lancement initial de l'application. Cette opération est réalisée en utilisant la commande await User.sync({ force: true }). Cette approche garantit la création du compte super administrateur une seule fois, lors de l'initialisation de l'application.
 
