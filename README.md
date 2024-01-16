@@ -991,9 +991,6 @@ router.get('/users', userController.getAllUsers);
 
 Lancez l application et accédez à l'interface Swagger UI en visitant <http://localhost:3000/api-docs> dans votre navigateur. Vous trouverez une documentation complète de notre API Notimail, ce qui facilitera l'intégration et l'utilisation de l'API pour les développeurs
 
-
-
-
 - Revoir le READ ME
 - Faire ine intro a la doc API
 - Mettre le commentaires
