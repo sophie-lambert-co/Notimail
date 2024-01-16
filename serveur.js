@@ -7,13 +7,13 @@ import dotenv from "dotenv";
 import User from "./modeles/modelUser.js";
 import cors from "cors";
 import createAdminUser from './controllers/adminController.js';
-import router from './routes/userRoutes.js'; 
+import router from './routes/userRoutes.js';
 import swaggerUi from "swagger-ui-express"
 import swaggerJsdoc from "swagger-jsdoc"
 
 dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
 
-const app = express(); // Initialise une application Express
+export const app = express(); // Initialise une application Express
 
 // Définit le port sur lequel le serveur va écouter les connexions entrantes
 const port = process.env.SERVER_PORT;
@@ -29,8 +29,8 @@ const options = {
       description: 'API Notimail pour la notification de courrier',
     },
   },
-  apis: ['./routes/userRoutes.js','./modeles/modelUser.js'],
-   
+  apis: ['./routes/userRoutes.js', './modeles/modelUser.js'],
+
 };
 
 
@@ -55,9 +55,6 @@ app.use("/", userRouter);
 
 app.use(cors());
 
-
-
-
 // Fonction asynchrone pour démarrer le serveur
 const startServer = async () => {
   try {
@@ -76,11 +73,13 @@ const startServer = async () => {
 
 
 app.listen(port, function () {
-     // Lance le serveur Express pour écouter les connexions entrantes sur le port spécifié
-startServer()
-// Ajout du compte administrateur
-createAdminUser ();
+  // Lance le serveur Express pour écouter les connexions entrantes sur le port spécifié
+  startServer()
+  // Ajout du compte administrateur
+  createAdminUser();
 
 });
+
+
 
 
