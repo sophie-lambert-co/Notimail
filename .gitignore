@@ -1,1 +1,10 @@
+
+# Ignore les fichiers dans le répertoire node_modules généré par npm
 /node_modules
+
+# Ignore le fichier .env qui contient des variables d'environnement sensibles
+# Ne  pas versionner le fichier .env pour des raisons de sécurité
+.env
+connectDB.js
+/connectDB
+/connectDB.js

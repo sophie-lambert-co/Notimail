@@ -1,7 +1,7 @@
 // adminController.js
 
 import User from '../modeles/modelUser.js'; // Assurez-vous d'importer correctement votre modèle User
-import { generateAdminPassword } from '../utils/utils.js';
+import { generateAdminPassword } from '../utils/utilSecurisation.js';
 
 // Fonction pour la génération du mot de passe administrateur
 const createAdminUser = async () => {

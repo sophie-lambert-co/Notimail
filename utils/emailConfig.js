@@ -1,11 +1,18 @@
 import nodemailer from 'nodemailer';
+import dotenv from "dotenv";
+
+dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
+
+const mailAdmin =  process.env.MAIL_ADRESS;
+const mailPassword =  process.env.MAIL_PASSWORD;
+
 
 // Configuration du transporteur SMTP
 const transporter = nodemailer.createTransport({
   service: 'gmail', // fournisseur de services de messagerie
   auth: {
-    user: 'MAIL_ADRESS', //  adresse e-mail de l'ADMIN principal
-    pass: 'MAIL_PASSWORD', // MOT DE PASS 
+    user: mailAdmin, //  adresse e-mail de l'ADMIN principal
+    pass: mailPassword, // MOT DE PASS 
   },
 });
 

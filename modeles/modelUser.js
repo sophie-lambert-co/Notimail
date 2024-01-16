@@ -2,6 +2,56 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import connection from '../connectDB.js'; // Importe la connexion à la base de données
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         firm_name:
+ *           type: string
+ *           description: Le nom de l'entreprise (clé primaire).
+ *           example: "NomEntreprise"
+ *         first_name:
+ *           type: string
+ *           description: Le prénom de l'utilisateur.
+ *           example: "John"
+ *         last_name:
+ *           type: string
+ *           description: Le nom de famille de l'utilisateur.
+ *           example: "Doe"
+ *         email:
+ *           type: string
+ *           description: L'adresse e-mail de l'utilisateur.
+ *           example: "john.doe@example.com"
+ *         phone_number:
+ *           type: string
+ *           description: Le numéro de téléphone de l'utilisateur.
+ *           example: "1234567890"
+ *         password:
+ *           type: string
+ *           description: Le mot de passe de l'utilisateur.
+ *           example: "MotDePasse123"
+ *         last_received_mail:
+ *           type: string
+ *           description: La date du dernier courrier reçu par l'utilisateur.
+ *           example: "2024-01-15T12:00:00Z"
+ *         last_picked_up:
+ *           type: string
+ *           description: La date et l'heure du dernier courrier récupéré par l'utilisateur.
+ *           example: "2024-01-15T12:00:00Z"
+ *         has_mail:
+ *           type: boolean
+ *           description: Indique si l'utilisateur a du courrier.
+ *           example: true
+ *         is_admin:
+ *           type: boolean
+ *           description: Indique si l'utilisateur est un administrateur.
+ *           example: false
+ */
+
+
 // Définition du modèle User en utilisant Sequelize
 const User = connection.define('users', {
   // Définition des attributs du modèle User avec leurs types et propriétés

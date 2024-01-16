@@ -3,7 +3,7 @@ import connection from "../connectDB.js";
 import User from "../modeles/modelUser.js";
 // Import du module bcrypt pour le hachage du mot de passe
 import bcrypt from "bcrypt";
-import { verifyFirmName, saltRounds } from "../utils/utils.js";
+import { verifyFirmName, saltRounds } from "../utils/utilSecurisation.js";
 import { sendEmail } from "../utils/emailConfig.js"; // Importer le fichier de configuration d'e-mail
 import { Sequelize } from "sequelize";
 
@@ -80,9 +80,7 @@ class userController {
         return res.status(404).json({ message: "Utilisateur non trouvé" });
       }
       // Renvoie les données de l'utilisateur
-      return user;
-      // Répond avec les données de l'utilisateur
-      res.json(user);
+      return res.status(200).json(user);
     } catch (error) {
       console.log(error);
       // En cas d'erreur, répond avec un statut 500 et un message d'erreur

@@ -14,10 +14,14 @@ import jwt from 'jsonwebtoken';
 import User from '../modeles/modelUser.js';
 // Importe le module bcrypt pour le hachage et la comparaison des mots de passe
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+
+dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
+
 
 
 // La clé secrète utilisée pour sécuriser et signer le token JWT
-const secretKey = 'JWT_SECRET'; 
+const secretKey = process.env.JWT_SECRET; 
 
 // Fonction pour générer un token JWT
 const generateToken = (userData) => {

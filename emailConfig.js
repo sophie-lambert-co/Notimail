@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 
+
 // Configuration du transporteur SMTP
 const transporter = nodemailer.createTransport({
   service: 'gmail', // fournisseur de services de messagerie

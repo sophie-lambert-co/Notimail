@@ -27,7 +27,7 @@ Content-Type: application/json
 
 {
    "firm_name": "ACMECorporation",
-  "first_name": "Johne",
+  "first_name": "John",
   "last_name": "Smith",
   "email": "clothilde.perron@institutsolacroup.com",
   "phone_number": "1234567890",
