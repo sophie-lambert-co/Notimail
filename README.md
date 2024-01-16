@@ -991,8 +991,104 @@ router.get('/users', userController.getAllUsers);
 
 Lancez l application et accédez à l'interface Swagger UI en visitant <http://localhost:3000/api-docs> dans votre navigateur. Vous trouverez une documentation complète de notre API Notimail, ce qui facilitera l'intégration et l'utilisation de l'API pour les développeurs
 
+## TESTS
+
+- **Installer Jest**
+
+```bash
+
+npm install --save-dev jest
+
+```
+
+ pour prendre en charge les fonctionnalités ECMAScript récentes, vous pouvez suivre ces étapes supplémentaires pour utiliser Babel avec Jest :
+
+Installer les packages Babel pour Jest
+
+```bash
+
+npm install --save-dev @babel/core @babel/preset-env babel-jest
+
+```
+
+- **Configurer**
+
+Configurer Babel
+Créez un fichier **.babelrc** à la racine de votre projet avec le contenu suivant :
+
+```bash
+
+{
+  "presets": ["@babel/preset-env"]
+}
+
+```
+
+Configurer Jest pour utiliser Babel
+Creer votre fichier **jest.config.js** en incluant la configuration de Babel :
+
+```bash
+
+module.exports = {
+  testEnvironment: 'node',
+  transform: {
+    '^.+\\.js$': 'babel-jest',
+  },
+  // Vous pouvez ajouter d'autres configurations selon vos besoins
+};
+
+```
+
+Configurer Babel pour prendre en charge les modules ECMAScript dans les fichiers de test
+Dans le fichier **.babelrc**, ajoutez une section "env" pour spécifier que les fichiers de test doivent être traités en utilisant @babel/preset-env :
+
+```bash
+
+{
+  "presets": [
+    ["@babel/preset-env", { "targets": { "node": "current" } }]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        ["@babel/preset-env", { "targets": { "node": "current" } }]
+      ]
+    }
+  }
+}
+
+```
+
+- **Exécuter les tests**
+
+Lorsque vous faites Request(app), cela signifie que vous utilisez supertest pour envelopper votre application app dans un objet qui vous permet d'effectuer des requêtes HTTP sans avoir à lancer réellement le serveur. Cela rend les tests plus rapides et plus isolés, car ils s'exécutent dans un environnement de test sans nécessiter un serveur réel en cours d'exécution.
+
+La création de l'instance de votre application à l'aide de Request(app) est une partie cruciale de l'utilisation de supertest pour tester vos routes et vos endpoints sans nécessiter le démarrage du serveur réel. Cela permet de s'assurer que les tests sont bien isolés et ne dépendent pas de l'état réel du serveur en cours d'exécution.
+
+Maintenant, lorsque vous exécutez vos tests avec npm test, Jest utilisera Babel pour transpiler vos fichiers, permettant ainsi l'utilisation de fonctionnalités ECMAScript récentes.
+
+Assurez-vous que votre application est toujours correctement configurée pour être testée (par exemple, utilisez un environnement de base de données distinct pour les tests).
+
+N'oubliez pas de personnaliser davantage ces configurations en fonction de vos besoins spécifiques.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - Revoir le READ ME
-- Faire ine intro a la doc API
-- Mettre le commentaires
-- alleger le code dans les Controller
-- ajouter les fichier de swagger config
+- Faire une intro a la doc API
+- Mettre le commentaires qui manques
+- alleger le code dans les Controller ?
+- Ajouter les cors 
+- supprimer les fichiers inutils

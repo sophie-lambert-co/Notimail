@@ -7,12 +7,32 @@ import { verifyFirmName, saltRounds } from "../utils/utilSecurisation.js";
 import { sendEmail } from "../utils/emailConfig.js"; // Importer le fichier de configuration d'e-mail
 import { Sequelize } from "sequelize";
 
+//Chaque code de statut HTTP a une signification spécifique. Par exemple, les codes de la série 2xx indiquent que la requête a été reçue, comprise et acceptée avec succès. Les codes de la série 4xx indiquent des erreurs du côté client, tandis que les codes de la série 5xx indiquent des erreurs du côté serveur.
+
+// **2xx (Succès) :
+// 200 OK (OK)
+// 201 Created (Créé)
+// 202 Accepted (Accepté)
+// 204 No Content (Pas de contenu)
+// 206 Partial Content (Contenu partiel) 
+
+// *4xx (Erreur client) :
+//400 Bad Request (Requête incorrecte)
+//401 Unauthorized (Non autorisé)
+//403 Forbidden (Interdit)
+//404 Not Found (Non trouvé)
+
+// *5xx (Erreur serveur) :
+//500 Internal Server Error (Erreur interne du serveur)
+//504 Gateway Timeout (Délai d'attente de la passerelle)
+
+
 // Classe userController pour gérer les différentes actions liées aux utilisateurs
 class userController {
   // Fonction asynchrone pour créer un nouvel utilisateur
   async createUser(req, res) {
     try {
-      console.log(req.body.password);
+      //console.log(req.body.password);
 
       let userCode = "";
       let hashedCode = "";
@@ -24,19 +44,20 @@ class userController {
         // Générer un code utilisateur aléatoire s'il n'y a pas de mot de passe dans la requête
         const code = Math.floor(1000 + Math.random() * 9000);
         userCode = code.toString().padStart(4, "0"); // Assurez-vous d'avoir toujours 4 chiffres
-        console.log("Code utilisateur généré :", userCode);
+        //console.log("Code utilisateur généré :", userCode);
       } else {
         userCode = req.body.password; // Utiliser le mot de passe de la requête s'il existe
       }
       hashedCode = await bcrypt.hash(userCode, saltRounds); // Hachage du code
-      console.log(hashedCode, userCode);
+      //console.log(hashedCode, userCode);
       newUser.password = hashedCode;
       // Sauvegarde le nouvel utilisateur dans la base de données
       await newUser.save();
       // Répond avec le nouvel utilisateur créé en tant que réponse à la requête avec le statut 201 (Created)
-      res.status(201).json(newUser);
+      res.status(201).json({ message: 'POST request successful', data: newUser });
     } catch (error) {
       // En cas d'erreur, répond avec un statut 500 et un message d'erreur
+      console.log(error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -47,11 +68,11 @@ class userController {
       // Récupère tous les utilisateurs depuis la base de données
       const [rows] = await connection.query("SELECT * FROM NOTIMAIL.users");
       // Répond avec les utilisateurs récupérés
-      res.json(rows);
+      res.status(200).json(rows);
     } catch (error) {
       console.error("Erreur lors de la récupération des utilisateurs :", error);
-      // En cas d'erreur, répond avec un statut 500 et un message d'erreur
-      res.status(500).send("Erreur lors de la récupération des utilisateurs");
+      // En cas d'erreur, répond avec un statut 400 et un message d'erreur
+      res.status(400).send("Erreur lors de la récupération des utilisateurs");
     }
   }
 
@@ -83,8 +104,8 @@ class userController {
       return res.status(200).json(user);
     } catch (error) {
       console.log(error);
-      // En cas d'erreur, répond avec un statut 500 et un message d'erreur
-      res.status(500).json({ error: error.message });
+      // En cas d'erreur, répond avec un statut 404 et un message d'erreur
+      res.status(404).json({ error: error.message });
     }
   }
 
@@ -138,7 +159,7 @@ class userController {
       await sendEmail(mailOptions);
 
       // Répond avec les données de l'utilisateur mises à jour
-      res.json({
+      res.status(200).json({
         success: true,
         message: "Mise à jour réussie.",
         updatedUser: req.body,
@@ -177,7 +198,7 @@ class userController {
       }
 
       // Répond avec les données de l'utilisateur supprimé
-      res.json({ message: "Utilisateur supprimé avec succès" });
+      res.status(200).json({ message: "Utilisateur supprimé avec succès" });
     } catch (error) {
       // En cas d'erreur, répond avec un statut 500 et un message d'erreur
       res.status(500).json({ error: error.message });
@@ -190,11 +211,7 @@ class userController {
       console.log(tab);
 
       for (let i = 0; i < tab.length; i++) {
-        if (!tab[i].firm_name) {
-          // Vérification si le nom de l'entreprise existe dans l'objet
-          res.status(400).send("Le format de la notification est incorrect.");
-          return;
-        } else {
+    
           await User.update(
             {
               has_mail: true,
@@ -225,7 +242,6 @@ class userController {
 
           //Appel de la fonction pour envoyer l'e-mail
           await sendEmail(mailOptions);
-        }
       }
 
       res

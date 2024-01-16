@@ -18,7 +18,6 @@ export const app = express(); // Initialise une application Express
 // Définit le port sur lequel le serveur va écouter les connexions entrantes
 const port = process.env.SERVER_PORT;
 
-
 // Route pour la documentation Swagger
 const options = {
   definition: {
@@ -71,16 +70,4 @@ const startServer = async () => {
   }
 };
 
-
-app.listen(port, function () {
-  // Lance le serveur Express pour écouter les connexions entrantes sur le port spécifié
-  startServer()
-  // Ajout du compte administrateur
- // createAdminUser();
-
-});
-
-
-
-
-
+export default startServer;
