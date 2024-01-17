@@ -25,3 +25,5 @@ const connection = new Sequelize(dbName, dbUser, dbPassword, {
 // Cela permet à d'autres modules/fichiers d'importer cette connexion et d'interagir avec la base de données
 // en utilisant cette même instance Sequelize.
 export default connection;
+
+

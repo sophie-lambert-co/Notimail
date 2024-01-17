@@ -1090,5 +1090,7 @@ N'oubliez pas de personnaliser davantage ces configurations en fonction de vos b
 - Faire une intro a la doc API
 - Mettre le commentaires qui manques
 - alleger le code dans les Controller ?
-- Ajouter les cors 
+- Ajouter les cors ( voir Doc Xavier ) 
 - supprimer les fichiers inutils
+- Retirer les espcaes dans les firm_name
+- S'assurer qu'il y a bien un @ dans les adresse mail

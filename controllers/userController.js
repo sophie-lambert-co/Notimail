@@ -207,7 +207,7 @@ class userController {
 
   async sendNotification(req, res) {
     try {
-      const tab = req.body.listNotif;
+      const tab = req.body.notifList;
       console.log(tab);
 
       for (let i = 0; i < tab.length; i++) {

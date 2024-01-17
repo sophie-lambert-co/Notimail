@@ -57,13 +57,11 @@ describe('Tests pour les requètes de NOTIMAIL', () => {
         });
     });
 
-    afterAll(() => {
-        // Netoyage de la base de donnée après tout les tests
-    })
+    
 
     afterAll(async () => {
         // Nettoyage de la base de données après tous les tests
-        await clearDatabase(); // Remplacez cette fonction par la fonction réelle pour nettoyer la base de données
+       // await clearDatabase(); // Remplacez cette fonction par la fonction réelle pour nettoyer la base de données
         await disconnectFromDatabase(); // Remplacez cette fonction par la fonction réelle pour se déconnecter de la base de données
     });
 });

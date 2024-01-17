@@ -44,7 +44,7 @@ PUT http://localhost:3000/send
 Content-Type: application/json
 
 {
-  "listNotif": [
+  "notifList": [
     { "firm_name": "ACMECorporation" },
     { "firm_name": "ABCIndustries" }
   ]
