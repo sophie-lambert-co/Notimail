@@ -30,7 +30,7 @@ Content-Type: application/json
   "first_name": "John",
   "last_name": "Smith",
   "email": "clothilde.perron@institutsolacroup.com",
-  "phone_number": "1234567890",
+  "phone_number": "33670381612",
   "password": "1234",
   "last_received_mail": "2023-12-24",
   "last_picked_up": "2023-12-26",
@@ -224,3 +224,5 @@ Content-Type: application/json
   "has_mail": true,
   "is_admin": false
 }
+
+

@@ -6,6 +6,12 @@ import bcrypt from "bcrypt";
 import { verifyFirmName, saltRounds } from "../utils/utilSecurisation.js";
 import { sendEmail } from "../utils/emailConfig.js"; // Importer le fichier de configuration d'e-mail
 import { Sequelize } from "sequelize";
+import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
+
+const authtoken = process.env.AUTH_TOKEN ;
 
 //Chaque code de statut HTTP a une signification spécifique. Par exemple, les codes de la série 2xx indiquent que la requête a été reçue, comprise et acceptée avec succès. Les codes de la série 4xx indiquent des erreurs du côté client, tandis que les codes de la série 5xx indiquent des erreurs du côté serveur.
 
@@ -14,7 +20,7 @@ import { Sequelize } from "sequelize";
 // 201 Created (Créé)
 // 202 Accepted (Accepté)
 // 204 No Content (Pas de contenu)
-// 206 Partial Content (Contenu partiel) 
+// 206 Partial Content (Contenu partiel)
 
 // *4xx (Erreur client) :
 //400 Bad Request (Requête incorrecte)
@@ -25,7 +31,6 @@ import { Sequelize } from "sequelize";
 // *5xx (Erreur serveur) :
 //500 Internal Server Error (Erreur interne du serveur)
 //504 Gateway Timeout (Délai d'attente de la passerelle)
-
 
 // Classe userController pour gérer les différentes actions liées aux utilisateurs
 class userController {
@@ -54,7 +59,9 @@ class userController {
       // Sauvegarde le nouvel utilisateur dans la base de données
       await newUser.save();
       // Répond avec le nouvel utilisateur créé en tant que réponse à la requête avec le statut 201 (Created)
-      res.status(201).json({ message: 'POST request successful', data: newUser });
+      res
+        .status(201)
+        .json({ message: "POST request successful", data: newUser });
     } catch (error) {
       // En cas d'erreur, répond avec un statut 500 et un message d'erreur
       console.log(error);
@@ -208,41 +215,68 @@ class userController {
   async sendNotification(req, res) {
     try {
       const tab = req.body.notifList;
-      console.log(tab);
+      console.log(tab,'tab');
 
       for (let i = 0; i < tab.length; i++) {
-    
-          await User.update(
-            {
-              has_mail: true,
-              last_received_mail: Sequelize.literal("CURRENT_TIMESTAMP"),
-            },
-            {
-              where: { firm_name: tab[i].firm_name }, // Correction de la clé firrm_name à firm_name
-            }
-          );
+        await User.update(
+          {
+            has_mail: true,
+            last_received_mail: Sequelize.literal("CURRENT_TIMESTAMP"),
+          },
+          {
+            where: { firm_name: tab[i].firm_name }, // Correction de la clé firrm_name à firm_name
+          }
+        );
 
-          // Récupère l'adresse e-mail du nouvel administrateur après la mise à jour
-          const updatedUser = await User.findOne({
-            where: { firm_name: tab[i].firm_name },
-            attributes: ["email"],
-          });
+        // Récupère l'adresse e-mail du nouvel administrateur après la mise à jour
+        const updatedUser = await User.findOne({
+          where: { firm_name: tab[i].firm_name },
+          attributes: ["email","phone_number"]
+        });
 
-          const updateUserNotif = updatedUser ? updatedUser.email : null;
-          console.log(updateUserNotif);
+        const updateUserNotif = updatedUser ? updatedUser.email : null;
+        console.log(updateUserNotif);
 
-          // Options de l'e-mail pour le compte administrateur
-          const mailOptions = {
-            from: "sophie.lambert@institutsolacroup.com", // ici mettre l'adress de l'Administrateur principal
-            to: updateUserNotif, // ici mettre l'adresse du nouvel Administrateur
-            subject: "Vous avez reçu du courrier",
-            text: "Bonjour, Merci de venir recuperer votre courrier au 4O.",
-          };
-          console.log(updateUserNotif);
+        const updateUserSms = updatedUser ? updatedUser.phone_number : null;
+        console.log(updateUserSms);
 
-          //Appel de la fonction pour envoyer l'e-mail
+        // Options de l'e-mail pour le compte administrateur
+        const mailOptions = {
+          from: "sophie.lambert@institutsolacroup.com", // ici mettre l'adress de l'Administrateur principal
+          to: updateUserNotif, // ici mettre l'adresse du nouvel Administrateur
+          subject: "Vous avez reçu du courrier",
+          text: "Bonjour, Merci de venir recuperer votre courrier au 4O.",
+        };
+        console.log(updateUserNotif);
+
+        // Options du sms pour le compte administrateur
+        const smsOptions = {
+          method: "post",
+          url: "https://api.allmysms.com/sms/send",
+          headers: {
+            "cache-control": "no-cache",
+            Authorization: authtoken,
+            "Content-Type": "application/json",
+          },
+          data: {
+            from: "LE 40",
+            to: updateUserSms,
+            text: " Bonjour, Merci de venir recuperer votre courrier au 4O. SMS FROM REST API\r\nStop au 36180",
+          },
+        };
+
+        // axios est une requète
+          // Envoi du SMS
+          try {
+            const response = await axios(smsOptions);
+            console.log(response.data, 'SMS envoyé');
+          } catch (error) {
+            console.error(error, 'Échec de l\'envoi du SMS');
+          }
+  
+          // Envoi de l'e-mail
           await sendEmail(mailOptions);
-      }
+        }
 
       res
         .status(200)

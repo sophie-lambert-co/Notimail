@@ -287,6 +287,7 @@ Les étapes ci-dessus vous permettront de créer un environnement de développem
 - nodemailer : "^6.9.8",
 - nodemon : "^3.0.2",
 - sequelize : "^6.35.2"
+- axios : "^1.6.5",
 
 ### Structure des fichiers
 
@@ -823,14 +824,11 @@ await sendEmail(mailOptions);
 ### Envoi de SMS avec AllMySms
 
 Notimail offre une fonctionnalité d'envoi de SMS via AllMySms, ajoutant une dimension de notification supplémentaire à votre application. Suivez les étapes ci-dessous pour comprendre l'integration de cette fonctionnalité au projet Notimail.
-
-- **Installation**
-
-Utilisez npm pour installer le package nécessaire pour l'envoi de SMS avec AllMySms :
+- **Installation de AllMySms**
 
 ```bash
 
-npm install allmysms
+ npm install axios
 
 ```
 
@@ -849,15 +847,22 @@ Configuration dans l application  Notimail, configuration des identifiants API d
 
 ```bash
 
-// allmysmsConfig.js
-
-const allMySmsConfig = {
-  apiKey: 'VOTRE_CLE_API',
-  apiSecret: 'VOTRE_SECRET_API',
-  sender: 'VOTRE_EMETTEUR',
-};
-
-export default allMySmsConfig;
+  // Options du sms pour le compte administrateur
+        const smsOptions = {
+          method: "post",
+          url: "https://api.allmysms.com/sms/send",
+          headers: {
+            "cache-control": "no-cache",
+            Authorization: "Basic c3RhZ2lhaXJlc2ltdHM6N2VmNjgxYmQ5MTZkMDg4",
+            "Content-Type": "application/json",
+          },
+          data: {
+            from: "allmysms",
+            to: updateUserSms,
+            text: " Bonjour, Merci de venir recuperer votre courrier au 4O. SMS FROM REST API\r\nStop au 36180",
+            date: "2019-03-25 19:00:00",
+          },
+        };
 
 ```
 
@@ -867,28 +872,34 @@ Dans ce code d'application, on utilise la bibliothèque AllMySms pour envoyer de
 
 ```bash
 
-// smsService.js
-
-import AllMySms from 'allmysms';
-import allMySmsConfig from './allmysmsConfig';
-
-const allMySms = new AllMySms(allMySmsConfig);
-
-/**
- * Fonction pour envoyer un SMS
- * @param {string} phoneNumber - Le numéro de téléphone du destinataire.
- * @param {string} message - Le message à envoyer.
- * @returns {Promise} - La promesse de l'envoi du SMS.
- */
-const sendSms = (phoneNumber, message) => {
-  return allMySms.sendSms(phoneNumber, message);
-};
-
-export { sendSms };
+  // axios est une requète
+          // Envoi du SMS
+          try {
+            const response = await axios(smsOptions);
+            console.log(response.data, 'SMS envoyé');
+          } catch (error) {
+            console.error(error, 'Échec de l\'envoi du SMS');
+          }
 
 ```
 
-Utilise la fonction sendSms dans l application pour envoyer des SMS à nos utilisateurs selon les besoins.
+exemple de requète
+
+```bash
+
+###
+
+PUT http://localhost:3000/send
+Content-Type: application/json
+
+{
+  "notifList": [
+    { "firm_name": "ACMECorporation" },
+    { "firm_name": "ABCIndustries" }
+  ]
+}
+
+```
 
 - **API Documentation**
 
@@ -1076,21 +1087,11 @@ N'oubliez pas de personnaliser davantage ces configurations en fonction de vos b
 
 
 
-
-
-
-
-
-
-
-
-
-
 - Revoir le READ ME
 - Faire une intro a la doc API
 - Mettre le commentaires qui manques
 - alleger le code dans les Controller ?
-- Ajouter les cors ( voir Doc Xavier ) 
+- Ajouter les cors ( voir Doc Xavier )
 - supprimer les fichiers inutils
-- Retirer les espcaes dans les firm_name
-- S'assurer qu'il y a bien un @ dans les adresse mail
+- Retirer les espcaes dans les firm_name ( front )
+- S'assurer qu'il y a bien un @ dans les adresse mail (front)
