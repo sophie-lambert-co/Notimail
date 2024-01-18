@@ -1,6 +1,6 @@
 // Importation des modules nécessaires pour la création du modèle
 import { Sequelize, DataTypes } from 'sequelize';
-import connection from '../connectDB.js'; // Importe la connexion à la base de données
+import connection from '../database.js'; // Importe la connexion à la base de données
 
 /**
  * @swagger

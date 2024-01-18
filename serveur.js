@@ -1,69 +1,17 @@
-// import  startServer  from "./index.js";
-// import dotenv from "dotenv";
-// import express from "express";
-
-// dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
-
-// // Définit le port sur lequel le serveur va écouter les connexions entrantes
-// const port = process.env.SERVER_PORT;
-
-// export const app = express(); // Initialise une application Express
-
-// app.listen(port, function () {
-//   // Lance le serveur Express pour écouter les connexions entrantes sur le port spécifié
-//   startServer()
-//   // Ajout du compte administrateur
-//   // createAdminUser();
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Fichier qui configure le serveur ( donc l'application coté back)
 
 // Importe Express et initialise une application
 import express from "express";
-import connection from "./connectDB.js"; // Importe la connexion à la base de données depuis connectDB.js
+import database from "./database.js"; // Importe la connexion à la base de données depuis connectDB.js
 import userRouter from "./routes/userRoutes.js"; // Importe le routeur pour la gestion des utilisateurs depuis userRoutes.js
 import morgan from "morgan"; // Importe le middleware Morgan pour les logs de requêtes HTTP
-import dotenv from "dotenv";
 import User from "./modeles/modelUser.js";
 import cors from "cors";
-import createAdminUser from './controllers/adminController.js';
 import router from './routes/userRoutes.js';
 import swaggerUi from "swagger-ui-express"
 import swaggerJsdoc from "swagger-jsdoc"
 
-
-dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
-
 export const app = express(); // Initialise une application Express
-
-// Définit le port sur lequel le serveur va écouter les connexions entrantes
-const port = process.env.SERVER_PORT;
-
-console.log('serveur.js looding...')
 
 // Route pour la documentation Swagger
 const options = {
@@ -103,10 +51,10 @@ app.use("/", userRouter);
 app.use(cors());
 
 // Fonction asynchrone pour démarrer le serveur
-const startServer = async () => {
+export const connectDB = async () => {
   try {
     // Vérifie la connexion à la base de données en utilisant la méthode authenticate()
-    await connection.authenticate();
+    await database.authenticate();
 
     // Synchronise le modèle User avec la base de données
     await User.sync({ force: false });
@@ -118,7 +66,8 @@ const startServer = async () => {
   }
 };
 
-startServer()
+
+
 
 
 

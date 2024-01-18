@@ -2,10 +2,16 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "Antoine",
-  "phone_number": "09-06-06-06-06",
-  "email": "Antoine@example.com",
-  "password":"1234"
+  "firm_name": "Tinquiete",
+  "first_name": "Tanguy",
+  "last_name": "Wayne",
+  "email": "tanguy.wayne@wayneent.com",
+  "phone_number": "1112223333",
+  "password": "6789",
+  "last_received_mail": "2023-12-31",
+  "last_picked_up": "2023-01-10",
+  "has_mail": true,
+  "is_admin": false
 }
 
 ###
@@ -17,7 +23,7 @@ GET http://localhost:3000/user/IMTS
 Content-Type: application/json
 
 ###
-DELETE http://localhost:3000/user/Zara
+DELETE http://localhost:3000/user/Tinquiete
 Content-Type: application/json
 
 ###
@@ -34,7 +40,7 @@ Content-Type: application/json
   "password": "1234",
   "last_received_mail": "2023-12-24",
   "last_picked_up": "2023-12-26",
-  "has_mail": true,
+  "has_mail": false,
   "is_admin": false
 }
 

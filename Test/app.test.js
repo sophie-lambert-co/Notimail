@@ -9,27 +9,65 @@
 
 // importe le module Request de la bibliothèque supertest. Cette bibliothèque est utilisée pour effectuer des requêtes HTTP dans les tests.
 // importe l'objet app depuis le fichier serveur.js. Cet objet représente votre application Express.
-import Request from "supertest";
-import { app } from "../serveur";
+import request from "supertest";
+import { app, connectDB } from "../serveur";
+import database from "./database.js";
+
+
+describe("Test the root path", () => {
+
+  beforeAll(() => {
+    connectDB();
+  })
+
+  test("It should response the GET method", async () => {
+    const response = await request(app).get("/user");
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/application\/json/);
+   
+  });
 
 
 
 
-export const hello = ()=> {
-return 'hello, world'
-}
 
-describe('Tests pour les requètes de NOTIMAIL', () => {
+  afterAll(() => {
+    connectDB.close()
+    .then(() => {
+      console.log('Déconnexion réussie');
+    })
+    .catch((error) => {
+      console.error('Erreur lors de la déconnexion :', error);
+    });
 
-  it("rend helloworld", () => {
-    expect(hello()).toBe("hello, world")
-})
+ 
+    
+
+
+    
+  })
+
+
+
+
+
+
 
 
 });
 
 
 
-
-
-
+// export const hello = ()=> {
+//   return 'hello, world'
+//   }
+  
+//   describe('Tests pour les requètes de NOTIMAIL', () => {
+  
+//     it("rend helloworld", () => {
+//       expect(hello()).toBe("hello, world")
+//   })
+  
+  
+//   });
+  

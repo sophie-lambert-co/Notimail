@@ -1,5 +1,5 @@
 // Importations des modules et des fichiers nécessaires pour la gestion des utilisateurs
-import connection from "../connectDB.js";
+import connection from "../database.js";
 import User from "../modeles/modelUser.js";
 // Import du module bcrypt pour le hachage du mot de passe
 import bcrypt from "bcrypt";
