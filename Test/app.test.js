@@ -25,7 +25,7 @@ describe("Test the root path", () => {
     expect(response.status).toBe(200);
     expect(response.headers['content-type']).toMatch(/application\/json/);
    
-  });
+  });g
 
 
 
