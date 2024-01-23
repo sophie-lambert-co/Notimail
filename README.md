@@ -1157,3 +1157,8 @@ Vous pouvez choisir parmi ces assertions en fonction des besoins spécifiques de
 - Ajouter les cors ( voir Doc Xavier )
 - Retirer les espcaes dans les firm_name (front?)
 - S'assurer qu'il y a bien un @ dans les adresse mail (front?)
+- Sanitize
+- listing qui change par rapport au cahier des charges : exmple mail envoyé a la modification
+- ajouter un mail a la creation
+- npm install validator , pour la validation des données 
+verification des donnée a la creation du user en corelation avec la base de données.

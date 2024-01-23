@@ -2,12 +2,12 @@ POST http://localhost:3000/user
 Content-Type: application/json
 
 {
-  "firm_name": "Tinquiete",
-  "first_name": "Tanguy",
-  "last_name": "Wayne",
-  "email": "tanguy.wayne@wayneent.com",
+  "firm_name": "Zazou",
+  "first_name": "William",
+  "last_name": "Kriegenhofer",
+  "email": "willy@geniedesbetises.com",
   "phone_number": "1112223333",
-  "password": "6789",
+  "password": "2345",
   "last_received_mail": "2023-12-31",
   "last_picked_up": "2023-01-10",
   "has_mail": true,
@@ -23,8 +23,9 @@ GET http://localhost:3000/user/IMTS
 Content-Type: application/json
 
 ###
-DELETE http://localhost:3000/user/Tinquiete
+DELETE http://localhost:3000/user/Zazou
 Content-Type: application/json
+
 
 ###
 
@@ -232,3 +233,20 @@ Content-Type: application/json
 }
 
 
+###
+
+PUT http://localhost:3000/user/ACMECorporation
+Content-Type: application/json
+
+{
+  "firm_name": "ACMECorporation",
+  "first_name": "tato",
+  "last_name": "tata",
+  "email": "tata@tyrellcorp.com",
+  "phone_number": "1112223333",
+  "password": "",
+  "last_received_mail": "2023-01-02",
+  "last_picked_up": "2023-01-05",
+  "has_mail": true,
+  "is_admin": false
+}

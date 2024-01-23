@@ -10,8 +10,18 @@ import cors from "cors";
 import router from './routes/userRoutes.js';
 import swaggerUi from "swagger-ui-express"
 import swaggerJsdoc from "swagger-jsdoc"
+import bodyParser from "body-parser";
+
 
 export const app = express(); // Initialise une application Express
+
+app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // Route pour la documentation Swagger
 const options = {
@@ -48,7 +58,6 @@ app.get("/", (req, res) => {
 // Utilisation du routeur userRouter pour les chemins relatifs à la gestion des utilisateurs
 app.use("/", userRouter);
 
-app.use(cors());
 
 // Fonction asynchrone pour démarrer le serveur
 export const connectDB = async () => {
@@ -58,7 +67,6 @@ export const connectDB = async () => {
 
     // Synchronise le modèle User avec la base de données
     await User.sync({ force: false });
-
   } catch (error) {
     // En cas d'erreur lors du démarrage du serveur, affiche l'erreur et termine le processus avec le code 1
    // console.error("Erreur lors du démarrage du serveur :", error);
