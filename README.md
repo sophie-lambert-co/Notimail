@@ -1149,7 +1149,7 @@ expect(response.body.timestamp).toMatch(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}
 Vous pouvez choisir parmi ces assertions en fonction des besoins spécifiques de votre application. Assurez-vous d'ajuster ces exemples en fonction de la structure réelle de vos données et des fonctionnalités de votre API.
 
 
-- Revoir le READ ME
+- Revoir le READ ME et completer
 - Documenter les test
 - Faire une intro a la doc API
 - Mettre les commentaires qui manques

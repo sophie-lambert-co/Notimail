@@ -3,7 +3,6 @@ import { Router } from 'express';
 
 // Importation du contrôleur d'utilisateurs depuis le fichier userController.js
 import userController from '../controllers/userController.js';
-import authenticateUser from '../middlewares/authMiddleware.js';
 import loginUser from '../controllers/authController.js';
 import createAdminUser  from '../controllers/adminController.js';
 
