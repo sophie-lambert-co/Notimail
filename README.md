@@ -1149,16 +1149,14 @@ expect(response.body.timestamp).toMatch(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}
 Vous pouvez choisir parmi ces assertions en fonction des besoins spécifiques de votre application. Assurez-vous d'ajuster ces exemples en fonction de la structure réelle de vos données et des fonctionnalités de votre API.
 
 
-
 - Revoir le READ ME
 - Documenter les test
 - Faire une intro a la doc API
 - Mettre les commentaires qui manques
 - Ajouter les cors ( voir Doc Xavier )
-- Retirer les espcaes dans les firm_name (front?)
-- S'assurer qu'il y a bien un @ dans les adresse mail (front?)
 - Sanitize
 - listing qui change par rapport au cahier des charges : exmple mail envoyé a la modification
-- ajouter un mail a la creation
 - npm install validator , pour la validation des données 
-verification des donnée a la creation du user en corelation avec la base de données.
+
+
+

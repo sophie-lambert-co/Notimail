@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Fonction pour envoyer un e-mail
-const sendEmail = (mailOptions) => {
+export function sendMail (mailOptions) {
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -28,5 +28,3 @@ const sendEmail = (mailOptions) => {
     });
   });
 };
-
-export { sendEmail };

@@ -138,6 +138,7 @@ describe("Tests de l'API utilisateur", () => {
       errors: [
         "Le champ email doit être une adresse email valide et avoir au maximum 50 caractères.",
         "Le champ password doit avoir exactement 4 caractères.",
+        "Le champ last_received_mail doit être une date valide.",
       ],
     });
   });
@@ -164,6 +165,7 @@ describe("Tests de l'API utilisateur", () => {
         errors: [
           "Le champ email doit être une adresse email valide et avoir au maximum 50 caractères.",
           "Le champ password doit avoir exactement 4 caractères.",
+          "Le champ last_received_mail doit être une date valide.",
         ],
       });
   });
@@ -237,12 +239,12 @@ describe("Tests de l'API utilisateur", () => {
   });
 
   test("It should respond with an error when an internal server error occurs during user update", async () => {
-    // Espionnez d'abord la méthode updateUser pour simuler une erreur serveur
-    jest.spyOn(User, 'update').mockImplementationOnce(() => {
+    // Espionnez la méthode updateUser pour simuler une erreur serveur
+    jest.spyOn(User, 'findOne').mockImplementationOnce(async () => {
       throw new Error("Internal Server Error");
     });
   
-    // Envoyez ensuite la requête de mise à jour
+    // Envoyez la requête de mise à jour
     const responseUpdateUser = await request(app)
       .put("/user/ABCIndustries")
       .send({
@@ -257,17 +259,16 @@ describe("Tests de l'API utilisateur", () => {
         has_mail: true,
         is_admin: false,
       });
-
+  
     expect(responseUpdateUser.status).toBe(500);
     expect(responseUpdateUser.headers['content-type']).toMatch(/application\/json/);
   
     // Ajoutez une vérification pour la propriété 'error' dans le corps de la réponse
     expect(responseUpdateUser.body).toEqual({
       success: false,
-      error: "Internal Server Error",
+      error: "Erreur interne du serveur.",
     });
   });
-
 
 
   test("It should respond with an error when the route is incorrect during user deletion", async () => {
@@ -369,7 +370,7 @@ describe("Tests de l'API utilisateur", () => {
       // Vérifier que la réponse a le statut 200 et le texte attendu
       expect(response.status).toBe(200);
       expect(response.text).toBe(
-        "Utilisateurs modifiés avec succès et envoi de mail ok"
+        "Utilisateurs modifiés avec succès et envoi de mail et SMS ok"
       );
   
       // Vérifier que l'utilisateur a bien été modifié

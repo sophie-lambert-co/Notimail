@@ -40,6 +40,20 @@ export async function generateAdminPassword() {
 }
 
 
+//####################################
+
+// Fonction pour générer un code utilisateur aléatoire
+export async function generateUserCode() {
+  const code = Math.floor(1000 + Math.random() * 9000);
+  return code.toString().padStart(4, "0");
+}
+
+//######################################
+
+// Fonction pour hacher le code utilisateur
+export async function hashUserCode(userCode) {
+  return await bcrypt.hash(userCode, saltRounds);
+}
 
 
 
