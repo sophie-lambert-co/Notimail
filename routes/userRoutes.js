@@ -1,3 +1,10 @@
+/**
+ * @file userRoutes.js
+ * @description Fournit des routes pour la gestion des utilisateurs.
+ * @module userRoutes
+ */
+
+
 // Importation du module Router depuis Express pour la création des routes
 import { Router } from 'express';
 
@@ -5,6 +12,8 @@ import { Router } from 'express';
 import userController from '../controllers/userController.js';
 import loginUser from '../controllers/authController.js';
 import createAdminUser  from '../controllers/adminController.js';
+import authenticateUser from '../middlewares/authMiddleware.js';
+
 
 
 
@@ -65,7 +74,7 @@ const UserController = new userController();
  */
 
 // Route pour la creation d'un admin
-router.post('/admin', createAdminUser);
+router.post('/admin',authenticateUser, createAdminUser);
 
 /**
  * @swagger
@@ -132,7 +141,7 @@ router.post('/login', loginUser);
  */
 
 // Route POST pour la création d'un utilisateur
-router.post('/user', UserController.createUser);
+router.post('/user',authenticateUser, UserController.createUser);
 
 /**
  * @swagger
@@ -157,7 +166,7 @@ router.post('/user', UserController.createUser);
 
 
 // Route GET pour récupérer tous les utilisateurs
-router.get('/user', UserController.getAllUser);
+router.get('/user',authenticateUser, UserController.getAllUser);
 
 /**
  * @swagger
@@ -204,7 +213,7 @@ router.get('/user', UserController.getAllUser);
 
 
 // Route GET pour récupérer tous les utilisateurs par leurs noms d'entreprises
-router.get('/user/:firm_name', UserController.getUserByFirmName);
+router.get('/user/:firm_name',authenticateUser, UserController.getUserByFirmName);
 
 
 /**
@@ -280,7 +289,7 @@ router.get('/user/:firm_name', UserController.getUserByFirmName);
 
 
 // Route PUT pour mettre à jour un utilisateur par son firm_name
-router.put('/user/:firm_name', UserController.updateUser);
+router.put('/user/:firm_name',authenticateUser, UserController.updateUser);
 
 /**
  * @swagger
@@ -332,7 +341,7 @@ router.put('/user/:firm_name', UserController.updateUser);
 
 
 // Route pour l'envoi des notifications
-router.put('/send', UserController.sendNotification);
+router.put('/send',authenticateUser, UserController.sendNotification);
 
 
 /**
@@ -395,7 +404,7 @@ router.put('/send', UserController.sendNotification);
  */
 
 // Route DELETE pour supprimer un utilisateur par son firm_name
-router.delete('/user/:firm_name', UserController.deleteUser);
+router.delete('/user/:firm_name',authenticateUser, UserController.deleteUser);
 
 
 

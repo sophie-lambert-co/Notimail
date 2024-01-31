@@ -1,11 +1,17 @@
 import validator from "validator";
 
 /**
+ * @file validateFields.js
+ * @description Fichier contenant la fonction de validation des champs du modèle User.
+ * @module Utils/validateFields
+ */
+
+/**
  * Fonction de validation des champs du modèle User.
+ *
  * @param {object} fieldsToValidate - Les champs à valider avec leurs valeurs.
  * @returns {array} - Un tableau d'erreurs de validation.
  */
-
 function validateFields(fieldsToValidate) {
   const validationErrors = [];
 
@@ -92,7 +98,7 @@ function validateFields(fieldsToValidate) {
 
   // Retournez le tableau d'erreurs de validation
   return validationErrors;
-  
 }
 
 export default validateFields; // Exportez le modèle User pour pouvoir l'utiliser dans d'autres fichiers
+

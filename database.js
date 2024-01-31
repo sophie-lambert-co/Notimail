@@ -1,3 +1,9 @@
+/**
+ * Module de configuration Sequelize pour interagir avec une base de données MySQL.
+ * @module sequelizeConfig
+ * @exports {Sequelize} database - Instance Sequelize configurée pour la base de données.
+ */
+
 // Importe le module Sequelize pour utiliser ses fonctionnalités dans ce fichier.
 import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
@@ -11,11 +17,11 @@ const dbPassword = process.env.DB_PASSWORD;
 const dbName = process.env.DB_NAME;
 const dbPort = process.env.DB_PORT;
 
-// Crée une nouvelle instance Sequelize nommée "database".
-// Cette instance est configurée pour se connecter à la base de données MySQL appelée 'NOTIMAIL',
-// en utilisant l'utilisateur 'root' et le mot de passe 'root'.
-// L'instance est paramétrée avec l'hôte ('localhost') et le port ('55004') du serveur MySQL.
-// La propriété "dialect" est définie sur 'mysql' pour spécifier l'utilisation de MySQL comme dialecte de base de données.
+/**
+ * Instance Sequelize configurée pour interagir avec la base de données MySQL.
+ * @const {Sequelize} database
+ * @public
+ */
 const database = new Sequelize(dbName, dbUser, dbPassword, {
   host: dbHost,
   port: dbPort, // Port utilisé pour se connecter au serveur MySQL

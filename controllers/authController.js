@@ -1,3 +1,8 @@
+/**
+ * @file authController.js
+ * @description Contrôleur pour la gestion de l'authentification des utilisateurs.
+ * @module authController
+ */
 
 // Un token, dans le contexte de la sécurité informatique et des systèmes d'authentification, est une chaîne de caractères ou un jeton qui est utilisé pour représenter l'autorisation ou l'identification dans une application ou un système.
 //Le terme "token" peut être traduit en français par "jeton". En informatique, ce terme est souvent utilisé pour désigner une pièce d'identité numérique ou une clé, qui est utilisée pour représenter l'autorisation d'accéder à une ressource ou de réaliser une action dans un système.
@@ -18,22 +23,34 @@ import dotenv from "dotenv";
 
 dotenv.config(); // Charge les variables d'environnement à partir du fichier .env
 
-
-
 // La clé secrète utilisée pour sécuriser et signer le token JWT
 const secretKey = process.env.JWT_SECRET; 
 
-// Fonction pour générer un token JWT
+/**
+ * Fonction pour générer un token JWT.
+ * @function
+ * @name generateToken
+ * @param {Object} userData - Données de l'utilisateur à inclure dans le token.
+ * @returns {string} - Token JWT généré.
+ */
 const generateToken = (userData) => {
-    //userData est défini spécifiquement avec le nom de l'entreprise (firm_name: user.firm_name). Lorsque le processus de connexion réussit, cet objet userData est utilisé pour générer un token JWT contenant les données de l'utilisateur.
+  //userData est défini spécifiquement avec le nom de l'entreprise (firm_name: user.firm_name). Lorsque le processus de connexion réussit, cet objet userData est utilisé pour générer un token JWT contenant les données de l'utilisateur.
   // La méthode 'sign' du module jwt prend les données de l'utilisateur (payload),
   // la clé secrète pour signer le token, et des options (telles que expiresIn)
   // pour générer un token JWT sécurisé
   return jwt.sign(userData, secretKey, { expiresIn: '1h' });
 };
 
-
-// Fonction de connexion de l'utilisateur
+/**
+ * Fonction de connexion de l'utilisateur.
+ * @async
+ * @function
+ * @name loginUser
+ * @param {Object} req - Objet de requête Express.
+ * @param {Object} res - Objet de réponse Express.
+ * @returns {void}
+ * @throws {Object} - Renvoie une erreur si la connexion de l'utilisateur échoue.
+ */
 const loginUser = async (req, res) => {
   // Extraction des données firm_name et password depuis le corps de la requête HTTP
   const { firm_name, password } = req.body;
@@ -83,4 +100,3 @@ const loginUser = async (req, res) => {
 };
 
 export default loginUser; // Exporte la fonction de connexion de l'utilisateur pour une utilisation externe
-

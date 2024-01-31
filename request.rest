@@ -89,6 +89,28 @@ Content-Type: application/json
   "password": "root"
 }
 
+###
+GET http://localhost:3000/user/AC Corporation
+Content-Type: application/json
+
+
+### Entreprise 0 ###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firm_name": "AC Corporation",
+  "first_name": "John",
+  "last_name": "Smith",
+  "email": "john.smith@acme.com",
+  "phone_number": "1234567890",
+  "password": "1234",
+  "last_received_mail": "2023-12-24",
+  "last_picked_up": "2023-12-26",
+  "has_mail": true,
+  "is_admin": false
+}
 
 ### Entreprise 1 ###
 

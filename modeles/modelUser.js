@@ -1,3 +1,10 @@
+/**
+ * @file userModel.js
+ * @description Fournit le modèle de données Sequelize pour l'entité User.
+ * @module userModel
+ */
+
+
 // Importation des modules nécessaires pour la création du modèle
 import { Sequelize, DataTypes } from 'sequelize';
 import connection from '../database.js'; // Importe la connexion à la base de données

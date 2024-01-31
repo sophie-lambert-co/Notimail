@@ -1,3 +1,9 @@
+/**
+ * @file userController.js
+ * @description Contrôleur pour la gestion des utilisateurs.
+ * @module userController
+ */
+
 // Importations des modules et des fichiers nécessaires pour la gestion des utilisateurs
 import connection from "../database.js";
 import User from "../modeles/modelUser.js";
@@ -13,28 +19,21 @@ import validator from "validator";
 import { sendEmail, sendSMS } from "../utils/notificationsConfig.js";
 import validateFields from "../utils/validationFields.js";
 
-//Chaque code de statut HTTP a une signification spécifique. Par exemple, les codes de la série 2xx indiquent que la requête a été reçue, comprise et acceptée avec succès. Les codes de la série 4xx indiquent des erreurs du côté client, tandis que les codes de la série 5xx indiquent des erreurs du côté serveur.
-
-// **2xx (Succès) :
-// 200 OK (OK)
-// 201 Created (Créé)
-// 202 Accepted (Accepté)
-// 204 No Content (Pas de contenu)
-// 206 Partial Content (Contenu partiel)
-
-// *4xx (Erreur client) :
-//400 Bad Request (Requête incorrecte)
-//401 Unauthorized (Non autorisé)
-//403 Forbidden (Interdit)
-//404 Not Found (Non trouvé)
-
-// *5xx (Erreur serveur) :
-//500 Internal Server Error (Erreur interne du serveur)
-//504 Gateway Timeout (Délai d'attente de la passerelle)
-
-// Classe userController pour gérer les différentes actions liées aux utilisateurs
+/**
+ * Classe userController pour gérer les différentes actions liées aux utilisateurs.
+ * @class
+ */
 class userController {
-  // Fonction asynchrone pour créer un nouvel utilisateur
+  /**
+   * Fonction asynchrone pour créer un nouvel utilisateur.
+   * @async
+   * @function
+   * @name createUser
+   * @param {Object} req - Objet de requête Express.
+   * @param {Object} res - Objet de réponse Express.
+   * @returns {void}
+   * @throws {Object} - Renvoie une erreur si la création de l'utilisateur échoue.
+   */
   async createUser(req, res) {
     try {
       // Vérifiez si les données requises sont présentes dans le corps de la requête
@@ -93,7 +92,16 @@ class userController {
     }
   }
 
-  // Fonction asynchrone pour récupérer tous les utilisateurs
+  /**
+   * Fonction asynchrone pour récupérer tous les utilisateurs.
+   * @async
+   * @function
+   * @name getAllUser
+   * @param {Object} req - Objet de requête Express.
+   * @param {Object} res - Objet de réponse Express.
+   * @returns {void}
+   * @throws {Object} - Renvoie une erreur si la récupération des utilisateurs échoue.
+   */
   async getAllUser(req, res) {
     try {
       // Récupère tous les utilisateurs depuis la base de données
@@ -109,7 +117,16 @@ class userController {
     }
   }
 
-  // Fonction asynchrone pour récupérer un utilisateur par son nom d'entreprise (firm_name)
+  /**
+   * Fonction asynchrone pour récupérer un utilisateur par son nom d'entreprise (firm_name).
+   * @async
+   * @function
+   * @name getUserByFirmName
+   * @param {Object} req - Objet de requête Express.
+   * @param {Object} res - Objet de réponse Express.
+   * @returns {void}
+   * @throws {Object} - Renvoie une erreur si la récupération de l'utilisateur échoue.
+   */
   async getUserByFirmName(req, res) {
     try {
       // Récupère le nom d'entreprise depuis les paramètres de la requête
@@ -141,65 +158,82 @@ class userController {
       res.status(500).json({ error: "Erreur serveur interne" });
     }
   }
-// Fonction asynchrone pour mettre à jour un utilisateur par son Firm_Name
-async updateUser(req, res) {
-  try {
-    // Récupère le nom d'entreprise depuis les paramètres de la requête
-    const nomEntreprise = req.body.firm_name;
 
-    // Vérifie si le nom d'entreprise est valide dans la base de données
-    const isValidFirmName = await verifyFirmName(nomEntreprise);
+  /**
+   * Fonction asynchrone pour mettre à jour un utilisateur par son Firm_Name.
+   * @async
+   * @function
+   * @name updateUser
+   * @param {Object} req - Objet de requête Express.
+   * @param {Object} res - Objet de réponse Express.
+   * @returns {void}
+   * @throws {Object} - Renvoie une erreur si la mise à jour de l'utilisateur échoue.
+   */
+  async updateUser(req, res) {
+    try {
+      // Récupère le nom d'entreprise depuis les paramètres de la requête
+      const nomEntreprise = req.body.firm_name;
 
-    if (!isValidFirmName) {
-      // Si le nom d'entreprise n'est pas valide, répond avec un statut 400 et un message d'erreur
-      return res.status(404).json({
-        message: "Le firm_name non trouvé dans la base de données",
-      });
+      // Vérifie si le nom d'entreprise est valide dans la base de données
+      const isValidFirmName = await verifyFirmName(nomEntreprise);
+
+      if (!isValidFirmName) {
+        // Si le nom d'entreprise n'est pas valide, répond avec un statut 400 et un message d'erreur
+        return res.status(404).json({
+          message: "Le firm_name non trouvé dans la base de données",
+        });
+      }
+
+      // Récupère les champs à mettre à jour depuis le corps de la requête
+      const { firm_name, ...updatedFields } = req.body;
+
+      // Recherchez l'utilisateur à mettre à jour
+      const existingUser = await User.findOne({ where: { firm_name: nomEntreprise } });
+
+      if (existingUser) {
+        // Mettez à jour les champs nécessaires
+        existingUser.set(updatedFields);
+
+        // Sauvegardez les modifications dans la base de données
+        await existingUser.save();
+
+        // Récupérez les données mises à jour
+        const mail = existingUser.email;
+        const userCode = existingUser.password;
+
+        // Envoyez l'e-mail à l'utilisateur
+        await sendEmail(userCode, "updateUser", mail);
+
+        // Répond avec les données de l'utilisateur mises à jour
+        res.status(200).json({
+          success: true,
+          message: "Mise à jour réussie.",
+          updatedUser: req.body,
+        });
+      } else {
+        // Si aucune ligne n'a été mise à jour, répond avec un statut 404 et un message d'erreur
+        res.status(404).json({
+          success: false,
+          message: "Aucun utilisateur mis à jour trouvé.",
+        });
+      }
+    } catch (error) {
+      // En cas d'erreur, répond avec un statut 500 et un message d'erreur générique
+      console.log("Error during update:", error);
+      res.status(500).json({ success: false, error: "Erreur interne du serveur." });
     }
-
-    // Récupère les champs à mettre à jour depuis le corps de la requête
-    const { firm_name, ...updatedFields } = req.body;
-
-    // Recherchez l'utilisateur à mettre à jour
-    const existingUser = await User.findOne({ where: { firm_name: nomEntreprise } });
-
-    if (existingUser) {
-      // Mettez à jour les champs nécessaires
-      existingUser.set(updatedFields);
-
-      // Sauvegardez les modifications dans la base de données
-      await existingUser.save();
-
-      // Récupérez les données mises à jour
-      const mail = existingUser.email;
-      const userCode = existingUser.password;
-
-      // Envoyez l'e-mail à l'utilisateur
-      await sendEmail(userCode, "updateUser", mail);
-
-      // Répond avec les données de l'utilisateur mises à jour
-      res.status(200).json({
-        success: true,
-        message: "Mise à jour réussie.",
-        updatedUser: req.body,
-      });
-    } else {
-      // Si aucune ligne n'a été mise à jour, répond avec un statut 404 et un message d'erreur
-      res.status(404).json({
-        success: false,
-        message: "Aucun utilisateur mis à jour trouvé.",
-      });
-    }
-  } catch (error) {
-    // En cas d'erreur, répond avec un statut 500 et un message d'erreur générique
-    console.log("Error during update:", error);
-    res.status(500).json({ success: false, error: "Erreur interne du serveur." });
   }
-}
 
-  
-
-  // Fonction asynchrone pour supprimer un utilisateur par son firm_name
+  /**
+   * Fonction asynchrone pour supprimer un utilisateur par son firm_name.
+   * @async
+   * @function
+   * @name deleteUser
+   * @param {Object} req - Objet de requête Express.
+   * @param {Object} res - Objet de réponse Express.
+   * @returns {void}
+   * @throws {Object} - Renvoie une erreur si la suppression de l'utilisateur échoue.
+   */
   async deleteUser(req, res) {
     try {
       // Récupère le nom d'entreprise depuis les paramètres de la requête
@@ -228,42 +262,50 @@ async updateUser(req, res) {
     }
   }
 
-// Fonction asynchrone pour envoyer des notifications
-async sendNotification(req, res) {
-  try {
-    const tab = req.body.notifList;
-    console.log(tab, "tab");
+  /**
+   * Fonction asynchrone pour envoyer des notifications.
+   * @async
+   * @function
+   * @name sendNotification
+   * @param {Object} req - Objet de requête Express.
+   * @param {Object} res - Objet de réponse Express.
+   * @returns {void}
+   * @throws {Object} - Renvoie une erreur si l'envoi des notifications échoue.
+   */
+  async sendNotification(req, res) {
+    try {
+      const tab = req.body.notifList;
+      console.log(tab, "tab");
 
-    for (let i = 0; i < tab.length; i++) {
-      await User.update(
-        {
-          has_mail: true,
-          last_received_mail: Sequelize.literal("CURRENT_TIMESTAMP"),
-        },
-        {
+      for (let i = 0; i < tab.length; i++) {
+        await User.update(
+          {
+            has_mail: true,
+            last_received_mail: Sequelize.literal("CURRENT_TIMESTAMP"),
+          },
+          {
+            where: { firm_name: tab[i].firm_name },
+          }
+        );
+
+        const updatedUser = await User.findOne({
           where: { firm_name: tab[i].firm_name },
-        }
-      );
+          attributes: ["email", "phone_number","password"],
+        });
 
-      const updatedUser = await User.findOne({
-        where: { firm_name: tab[i].firm_name },
-        attributes: ["email", "phone_number","password"],
-      });
+        // Envoi de l'e-mail
+        await sendEmail(updatedUser.password,"sendNotification", updatedUser.email);
 
-      // Envoi de l'e-mail
-      await sendEmail(updatedUser.password,"sendNotification", updatedUser.email);
+        // Envoi du SMS
+        await sendSMS(updatedUser.phone_number);
+      }
 
-      // Envoi du SMS
-      await sendSMS(updatedUser.phone_number);
+      res.status(200).send("Utilisateurs modifiés avec succès et envoi de mail et SMS ok");
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Erreur lors de la mise à jour des utilisateurs et de l'envoi du mail et du sms.");
     }
-
-    res.status(200).send("Utilisateurs modifiés avec succès et envoi de mail et SMS ok");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Erreur lors de la mise à jour des utilisateurs et de l'envoi du mail et du sms.");
   }
-}
-
 }
 
 // Exporte la classe userController pour pouvoir l'utiliser dans d'autres fichiers

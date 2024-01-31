@@ -1,4 +1,9 @@
-version: '3'
+/**
+ * Configuration du fichier Docker Compose.
+ * @module dockerComposeConfig
+ * @version 3
+ */
+
 services:
   # Service pour l'application Express
   web:
@@ -8,16 +13,14 @@ services:
       - .:/app
     ports:
       - "3000:3000"  # Port d'écoute de l'application Express
-    command: sh -c "npm install && npm start"
+    command: sh -c "npm install -f && npm start -f"
 
   # Service pour la base de données MySQL
   db:
     image: mysql:latest  # Choisissez la version de MySQL appropriée
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: your_database_name
-      MYSQL_USER: your_mysql_user
-      MYSQL_PASSWORD: your_mysql_password
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: NOTIMAIL
+      
     ports:
       - "3306:3306"  # Port d'écoute de MySQL
-

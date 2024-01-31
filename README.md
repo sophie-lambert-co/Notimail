@@ -75,6 +75,12 @@ La domiciliation comprend la réception du courrier professionnel et sa notifica
     - Installation
     - Configuration de Sawagger
     - Utilisation
+  - [Test unitaires](#test-unitaires)
+    - Prérequis
+    - Installation
+    - Configuration de Sawagger
+    - Utilisation
+
 
 ## Prérequis
 
@@ -1002,7 +1008,11 @@ router.get('/users', userController.getAllUsers);
 
 Lancez l application et accédez à l'interface Swagger UI en visitant <http://localhost:3000/api-docs> dans votre navigateur. Vous trouverez une documentation complète de notre API Notimail, ce qui facilitera l'intégration et l'utilisation de l'API pour les développeurs
 
-## TESTS
+## TESTS UNITAIRES
+
+Tests Unitaires avec Jest et Supertest
+Installation de Jest
+Commencez par installer Jest en tant que dépendance de développement avec la commande suivante :
 
 - **Installer Jest**
 
@@ -1082,81 +1092,140 @@ Assurez-vous que votre application est toujours correctement configurée pour ê
 
 N'oubliez pas de personnaliser davantage ces configurations en fonction de vos besoins spécifiques.
 
+- Pour exécuter les tests unitaires, utilisez la commande suivante :
+
+```bash
+
+npm test
+Cette commande déclenchera l'exécution de Jest, qui exécutera tous les tests définis dans le fichier app.test.js. Jest fournira des rapports détaillés sur les tests réussis, les échecs éventuels, et la couverture du code.
+
+```
 
 Lorsque vous écrivez des tests avec Jest et Supertest pour une application Express utilisant Sequelize, il y a plusieurs assertions que vous pouvez ajouter pour couvrir différents aspects de votre API. Voici quelques exemples d'assertions que vous pourriez inclure dans votre test :
 
-Statut de la réponse :
+- Statut de la réponse :
 Vérifiez si la réponse a le code d'état attendu, par exemple, le code 200 pour une réussite.
 
-javascript
-Copy code
+```bash
 expect(response.statusCode).toBe(200);
-Format de la réponse :
+
+```
+
+- Format de la réponse :
 Si votre API renvoie du JSON, assurez-vous que le contenu de la réponse est bien du JSON.
 
-javascript
-Copy code
+```bash
 expect(response.headers['content-type']).toMatch(/application\/json/);
-Corps de la réponse :
+
+```
+
+- Corps de la réponse :
 Assurez-vous que le corps de la réponse contient les données attendues.
 
-javascript
-Copy code
+```bash
 expect(response.body).toEqual({ /* Vos données attendues */ });
-Vérification des données :
+
+```
+
+- Vérification des données :
 Si vous interagissez avec la base de données, vérifiez si les données dans la réponse correspondent à celles que vous attendez.
 
-javascript
-Copy code
+```bash
 expect(response.body.someField).toBe(expectedValue);
-Existence de certaines propriétés :
+
+```
+
+- Existence de certaines propriétés :
 Assurez-vous que certaines propriétés ou clés sont présentes dans le corps de la réponse.
 
-javascript
-Copy code
+```bash
 expect(response.body).toHaveProperty('propertyName');
-Validation de la structure :
+
+```
+
+- Validation de la structure :
 Vérifiez si la structure de la réponse est correcte, en vous assurant que les champs nécessaires sont présents.
 
-javascript
-Copy code
+```bash
 expect(response.body).toHaveProperty('field1');
 expect(response.body).toHaveProperty('field2');
-Vérification des en-têtes :
+
+```
+
+- Vérification des en-têtes :
 Si votre API utilise des en-têtes particuliers, assurez-vous qu'ils sont corrects.
 
-javascript
-Copy code
+```bash
 expect(response.headers['custom-header']).toBe('expected-value');
-Vérification de la pagination, si applicable :
+
+```
+
+- Vérification de la pagination, si applicable :
 Si votre API prend en charge la pagination, assurez-vous que les informations de pagination sont correctes.
 
-javascript
-Copy code
+```bash
 expect(response.body).toHaveProperty('pagination');
-Gestion des erreurs :
+
+```
+
+- Gestion des erreurs :
 Si votre API peut renvoyer des erreurs, vérifiez que les erreurs sont gérées correctement.
 
-javascript
-Copy code
+```bash
 expect(response.body).toHaveProperty('error');
-Vérification du format de date/heure, si applicable :
+
+```
+
+- Vérification du format de date/heure, si applicable :
 Si votre API renvoie des données de date/heure, assurez-vous qu'elles sont dans le format attendu.
 
-javascript
-Copy code
+```bash
+
 expect(response.body.timestamp).toMatch(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.\d{3}Z$/);
+
+```
+
 Vous pouvez choisir parmi ces assertions en fonction des besoins spécifiques de votre application. Assurez-vous d'ajuster ces exemples en fonction de la structure réelle de vos données et des fonctionnalités de votre API.
 
 
-- Revoir le READ ME et completer
-- Documenter les test
-- Faire une intro a la doc API
-- Mettre les commentaires qui manques
-- Ajouter les cors ( voir Doc Xavier )
-- Sanitize
-- listing qui change par rapport au cahier des charges : exmple mail envoyé a la modification
-- npm install validator , pour la validation des données 
+- **Structure des Tests**
 
+Les tests unitaires sont regroupés dans le fichier app.test.js et sont conçus pour couvrir divers scénarios liés à l'API utilisateur. Voici une brève explication de chaque section des tests :
 
+- Tests GET
 
+Vérifient les différentes réponses possibles pour les requêtes GET.
+
+- Tests POST
+
+Vérifient la création d'un utilisateur avec des données valides.
+Vérifient la gestion des erreurs pour des données manquantes ou invalides.
+
+- Tests PUT
+
+Vérifient la mise à jour d'un utilisateur existant.
+Gèrent les cas où l'utilisateur n'existe pas ou en cas d'erreur interne.
+
+- Tests DELETE
+
+Vérifient la suppression d'un utilisateur existant.
+Gèrent les cas où l'utilisateur n'existe pas ou en cas d'erreur interne.
+
+- Tests Notifications
+
+Vérifient le déclenchement de notifications après la modification d'utilisateurs.
+
+- Tests Connexion
+
+Vérifient la connexion réussie d'un utilisateur.
+
+Après les Tests
+Après l'exécution des tests, assurez-vous de fermer proprement la connexion à la base de données en exécutant la commande suivante :
+
+```bash
+
+npm run closeDB
+
+```
+
+Cela garantit que toutes les ressources sont correctement libérées et contribue à maintenir l'intégrité du système.

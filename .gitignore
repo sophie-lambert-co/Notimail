@@ -1,10 +1,20 @@
+/**
+ * Fichier de configuration Git Ignore.
+ * Ce fichier spécifie les fichiers et répertoires à ignorer lors du suivi par Git.
+ *
+ * @typedef {Object} GitIgnoreConfig
+ * @property {string[]} nodeModules - Ignorer le répertoire node_modules généré par npm.
+ * @property {string} envFile - Ignorer le fichier .env qui contient des variables d'environnement sensibles.
+ * @property {string[]} connectDB - Ignorer les fichiers et le répertoire liés à la connexion à la base de données.
+ */
 
 # Ignore les fichiers dans le répertoire node_modules généré par npm
 /node_modules
 
 # Ignore le fichier .env qui contient des variables d'environnement sensibles
-# Ne  pas versionner le fichier .env pour des raisons de sécurité
+# Ne pas versionner le fichier .env pour des raisons de sécurité
 .env
-connectDB.js
-/connectDB
-/connectDB.js
+
+# Ignore les fichiers et le répertoire liés à la connexion à la base de données
+database.js
+

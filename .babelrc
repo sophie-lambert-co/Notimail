@@ -1,12 +1,23 @@
+/**
+ * Configuration Babel pour définir les presets en fonction de l'environnement.
+ *
+ * @typedef {Object} BabelConfig
+ * @property {Array<Array<string|Object>>} presets - Liste des presets Babel.
+ * @property {Object} env - Configuration spécifique pour les environnements.
+ * @property {Object} env.test - Configuration spécifique pour l'environnement de test.
+ * @property {Array<Array<string|Object>>} env.test.presets - Liste des presets Babel pour l'environnement de test.
+ */
+
+// Configuration Babel
 {
-    "presets": [
-      ["@babel/preset-env", { "targets": { "node": "current" } }]
-    ],
-    "env": {
-      "test": {
-        "presets": [
-          ["@babel/preset-env", { "targets": { "node": "current" } }]
-        ]
-      }
+  "presets": [
+    ["@babel/preset-env", { "targets": { "node": "current" } }]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        ["@babel/preset-env", { "targets": { "node": "current" } }]
+      ]
     }
   }
+}

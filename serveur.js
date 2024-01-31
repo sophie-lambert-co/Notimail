@@ -1,4 +1,7 @@
-//Fichier qui configure le serveur ( donc l'application coté back)
+/**
+ * Fichier qui configure le serveur (donc l'application côté back)
+ * @module serverConfig
+ */
 
 // Importe Express et initialise une application
 import express from "express";
@@ -12,8 +15,8 @@ import swaggerUi from "swagger-ui-express"
 import swaggerJsdoc from "swagger-jsdoc"
 import bodyParser from "body-parser";
 
-
-export const app = express(); // Initialise une application Express
+/** @constant {express.Application} app - Initialise une application Express */
+export const app = express();
 
 app.use(bodyParser.json());
 app.use(
@@ -26,7 +29,6 @@ app.use(
 // Route pour la documentation Swagger
 const options = {
   definition: {
-    
     openapi: '3.0.0',
     info: {
       title: 'Notimail',
@@ -35,31 +37,34 @@ const options = {
     },
   },
   apis: ['./routes/userRoutes.js', './modeles/modelUser.js'],
-
 };
-
 
 const specs = swaggerJsdoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-// Utilisation du middleware Morgan pour les logs de développement
+
+/** Utilisation du middleware Morgan pour les logs de développement */
 app.use(morgan("dev"));
 
-// Utilisation d'express.json() pour analyser les corps des requêtes au format JSON
+/** Utilisation d'express.json() pour analyser les corps des requêtes au format JSON */
 app.use(express.json());
 
 // Utilise ton routeur
 app.use('/api', router);
 
-// Route pour la racine de l'API, renvoie simplement un message "Hello World!"
+/** Route pour la racine de l'API, renvoie simplement un message "Hello World!" */
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World!"); 
 });
 
-// Utilisation du routeur userRouter pour les chemins relatifs à la gestion des utilisateurs
+/** Utilisation du routeur userRouter pour les chemins relatifs à la gestion des utilisateurs */
 app.use("/", userRouter);
 
-
-// Fonction asynchrone pour démarrer le serveur
+/**
+ * Fonction asynchrone pour démarrer le serveur
+ * @async
+ * @function
+ * @throws {Error} - En cas d'erreur lors de la connexion à la base de données ou de la synchronisation du modèle User
+ */
 export const connectDB = async () => {
   try {
     // Vérifie la connexion à la base de données en utilisant la méthode authenticate()
@@ -68,18 +73,9 @@ export const connectDB = async () => {
     // Synchronise le modèle User avec la base de données
     await User.sync({ force: false });
   } catch (error) {
+    console.log(error)
     // En cas d'erreur lors du démarrage du serveur, affiche l'erreur et termine le processus avec le code 1
-   // console.error("Erreur lors du démarrage du serveur :", error);
+    // console.error("Erreur lors du démarrage du serveur :", error);
     process.exit(1);
   }
 };
-
-
-
-
-
-
-
-
-
-

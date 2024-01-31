@@ -1,9 +1,19 @@
-// adminController.js
+/**
+ * @file adminController.js
+ * @description Contrôleur pour la gestion des opérations liées à l'administrateur.
+ * @module adminController
+ */
 
 import User from '../modeles/modelUser.js'; // Assurez-vous d'importer correctement votre modèle User
 import { generateAdminPassword } from '../utils/utilSecurisation.js';
 
-// Fonction pour la génération du mot de passe administrateur
+/**
+ * Fonction asynchrone pour la création d'un utilisateur administrateur.
+ * @async
+ * @function
+ * @name createAdminUser
+ * @returns {void}
+ */
 const createAdminUser = async () => {
   try {
     // Utilise la fonction pour générer le mot de passe administrateur haché
@@ -14,7 +24,7 @@ const createAdminUser = async () => {
       first_name: "Clothilde",
       last_name: "Sophie",
       firm_name: "IMTS",
-      email: 'MAIL_ADRESS',
+      email: 'MAIL_ADRESS', // Assurez-vous de remplacer 'MAIL_ADRESS' par une véritable adresse e-mail
       phone_number: "00-00-00-00-00",
       password: hashedPassword,
       is_admin: true,
